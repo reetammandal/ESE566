@@ -1,0 +1,24 @@
+flash 35D9 SRAM   13:
+ 00 192 bytes
+flash 35DD SRAM   F3:
+ 00 4 bytes
+flash 35E1 SRAM  100:
+ 00 123 bytes
+flash 35E5 SRAM  18A:
+ 00 5 bytes
+flash 35E9 SRAM  18F:
+ <size at next line>  18  0 3C
+  [size:] 3 bytes
+flash 35EF SRAM  192:
+ 00 7 bytes
+flash 35F3 SRAM  199:
+ <size at next line>   5  3 E8
+  [size:] 3 bytes
+flash 35F9 SRAM  19C:
+ 00 10 bytes
+flash 35FD SRAM  1A6:
+ <size at next line>   4  8
+  [size:] 2 bytes
+flash 3602 SRAM  1A9:
+ <size at next line>   0  0
+  [size:] 2 bytes

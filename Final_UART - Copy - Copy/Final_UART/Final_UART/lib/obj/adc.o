@@ -1,0 +1,183 @@
+XH
+H 2 areas 2A global symbols
+M adc.asm
+S ADC_iResult Ref0000
+S ADC_bSampC Ref0000
+S ADC_bfStatus Ref0000
+S ADC_cCounterU Ref0000
+A text size 0 flags 0
+dbfile lib/adc.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/adc.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
+dbfunc 0 ? 0 I
+dbfile lib/adc.asm
+dbfunc 0 ? 0 I
+dbfile ./lib/ADC.inc
+dbfunc 0 ? 0 I
+A UserModules size BF flags 0
+dbfile lib/adc.asm
+dbfunc 0 ? 0 I
+dbline 3 0
+dbline 60 3
+dbline 61 4
+dbline 62 6
+dbline 63 7
+dbline 64 9
+dbline 65 B
+dbline 66 D
+dbline 67 F
+dbline 69 11
+dbline 6A 14
+dbline 6B 16
+dbline 6C 18
+dbline 6E 1A
+dbline 3 1B
+dbline 4 1D
+dbline 71 1F
+dbline 8C 20
+dbline 8E 23
+dbline 3 24
+dbline AF 27
+dbline B1 29
+dbline B2 2B
+dbline B3 2D
+dbline B4 2F
+dbline BA 31
+dbline BB 33
+dbline BC 35
+dbline BD 37
+dbline BE 39
+dbline C2 3A
+dbline C4 3D
+dbline C5 3F
+dbline C7 42
+dbline C9 45
+dbline CD 48
+dbline CE 4B
+dbline CF 4E
+dbline D0 51
+dbline D2 54
+dbline ED 55
+dbline EF 58
+dbline F2 5B
+dbline F5 5E
+dbline F6 61
+dbline 2 62
+dbline 2 65
+dbline F9 68
+dbline FB 69
+dbline 3 6A
+dbline 11F 6D
+dbline 120 6F
+dbline 122 71
+dbline 3 72
+dbline 143 75
+dbline 144 78
+dbline 145 7A
+dbline 147 7C
+dbline 3 7D
+dbline 14E 80
+dbline 14F 82
+dbline 151 84
+dbline 3 85
+dbline 16F 88
+dbline 171 8B
+dbline 3 8C
+dbline 195 8F
+dbline 197 92
+dbline 198 94
+dbline 19B 97
+dbline 19C 99
+dbline 19D 9B
+dbline 19E 9D
+dbline 1A1 9F
+dbline 1A2 A1
+dbline 1A3 A3
+dbline 1A8 A5
+dbline 1A9 A7
+dbline 1AC A9
+dbline 1AD AB
+dbline 1AE AC
+dbline 1B1 AE
+dbline 1B2 AF
+dbline 1B3 B0
+dbline 1B7 B2
+dbline 1B8 B5
+dbline 1BB B7
+dbline 1BC BA
+dbline 1BD BC
+dbline 1BF BE
+S ADC_GetSamples Def0024
+S _ADC_fIsData Def006A
+S ADC_iGetData Def007D
+S _ADC_Stop Def0020
+S ADC_Start Def0000
+S $sb$ADC_GetSamples Def0024
+S $se$ADC_GetSamples Def0055
+S ADC_fIsDataAvailable Def006A
+S $sb$ADC_Start Def0000
+S ADC_StopAD Def0055
+S $se$ADC_Start Def0020
+S ADC_SetPower Def0000
+S $sb$ADC_StopAD Def0055
+S $se$ADC_StopAD Def006A
+S _ADC_GetSamples Def0024
+S ADC_SetResolution Def008C
+S ADC_ClearFlag Def0085
+S _ADC_iGetData Def007D
+S ADC_iGetDataClearFlag Def0072
+S _ADC_Start Def0000
+S _ADC_fIsDataAvailable Def006A
+S $sb$ADC_SetResolution Def008C
+S $sb$ADC_ClearFlag Def0085
+S $se$ADC_SetResolution Def00BF
+S $se$ADC_ClearFlag Def008C
+S $sb$ADC_iGetDataClearFlag Def0072
+S $se$ADC_iGetDataClearFlag Def0085
+S _ADC_StopAD Def0055
+S _ADC_SetPower Def0000
+S ADC_fIsData Def006A
+S ADC_Stop Def0020
+S $sb$ADC_fIsData Def006A
+S $se$ADC_fIsData Def0072
+S _ADC_SetResolution Def008C
+S _ADC_ClearFlag Def0085
+S $sb$ADC_Stop Def0020
+S _ADC_iGetDataClearFlag Def0072
+S $se$ADC_Stop Def0024
+T 00 00 62 D0 00 00 4F 21 03 08 5D 83 21 FC 2B 00
+R 00 00 00 01 43 04 00 02
+T 00 0D 29 F0 60 83 49 82 01 A0 05 50 05 53 00 00
+R 00 00 00 01 03 0E 00 02
+T 00 1A 18 70 3F 71 C0 7F 41 83 FC 7F 62 D0 00 00
+R 00 00 00 01 43 0E 00 02
+T 00 27 53 00 00 51 00 00 21 0F 01 07 90 5B 5D 2A
+R 00 00 00 01 03 03 00 01 03 06 00 02
+T 00 33 53 00 00 50 00 12 00 00 67 55 00 00 00 5D
+R 00 00 00 01 03 03 00 03 03 08 00 03 03 0C 00 03
+T 00 3E 26 62 21 FF 41 83 EF 41 82 DF 43 23 05 43
+R 00 00 00 01
+T 00 4C 27 01 43 E1 04 43 E1 01 7F 41 27 FE 41 23
+R 00 00 00 01
+T 00 5A FE 43 82 20 43 83 10 08 41 E1 FB 41 E1 FE
+R 00 00 00 01
+T 00 68 18 7F 62 D0 00 00 51 00 00 21 10 7F 62 D0
+R 00 00 00 01 43 06 00 02 03 09 00 02
+T 00 74 00 00 26 00 00 EF 58 00 00 51
+R 00 00 00 01 43 02 00 02 03 05 00 02 03 09 00 00
+T 00 7B 00 01 7F 62 D0 00 00 58 00 00 51
+R 00 00 00 01 03 02 00 00 43 07 00 00 03 0A 00 00
+T 00 83 00 01 7F 62 D0 00 00 26 00 00 EF 7F 62 D0
+R 00 00 00 01 03 02 00 00 43 07 00 02 03 0A 00 02
+T 00 8E 00 00 41 82 FE 9F C1 55 00 00 00 39 07 D0
+R 00 00 00 01 43 02 00 02 03 0A 00 02
+T 00 9A 05 50 07 80 07 39 0D C0 03 50 0D 11 07 2C
+R 00 00 00 01
+T 00 A8 00 00 01 01 5C 50 01 64 79 BF FD 62 26 00
+R 00 00 00 01 03 02 00 02
+T 00 B5 60 2A 62 25 0A 01 00 60 29 7F
+R 00 00 00 01
