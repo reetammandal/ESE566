@@ -1,0 +1,1382 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000           _MIN_LIGHT_READING::
+ 0000 0000              .word 0
+ 0002                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0002                   .dbsym e MIN_LIGHT_READING _MIN_LIGHT_READING I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _MAX_LIGHT_READING::
+ 0000 0320              .word 800
+ 0002                   .dbsym e MAX_LIGHT_READING _MAX_LIGHT_READING I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _N_LIGHT_BINS::
+ 0000 08                .byte 8
+ 0001                   .dbsym e N_LIGHT_BINS _N_LIGHT_BINS c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _len_M::
+ 0000 20                .byte 32
+ 0001                   .dbsym e len_M _len_M c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _my_vocab_index::
+ 0000 00                .byte 0
+ 0001                   .dbsym e my_vocab_index _my_vocab_index c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000                   .dbfunc e WaitMs _WaitMs fV
+ 0000           ;              i -> X+2
+ 0000           ;              j -> X+0
+ 0000           ;             ms -> X-5
+ 0000           _WaitMs::
+ 0000                   .dbline -1
+ 0000 10                push X
+ 0001 4F                mov X,SP
+ 0002 3804              add SP,4
+ 0004                   .dbline 193
+ 0004           ; //--------------------------------------------------------------------------
+ 0004           ; //
+ 0004           ; // Copyright 2008, Cypress Semiconductor Corporation.
+ 0004           ; //
+ 0004           ; // This software is owned by Cypress Semiconductor Corporation (Cypress)
+ 0004           ; // and is protected by and subject to worldwide patent protection (United
+ 0004           ; // States and foreign), United States copyright laws and international
+ 0004           ; // treaty provisions. Cypress hereby grants to licensee a personal,
+ 0004           ; // non-exclusive, non-transferable license to copy, use, modify, create
+ 0004           ; // derivative works of, and compile the Cypress Source Code and derivative
+ 0004           ; // works for the sole purpose of creating custom software in support of
+ 0004           ; // licensee product to be used only in conjunction with a Cypress integrated
+ 0004           ; // circuit as specified in the applicable agreement. Any reproduction,
+ 0004           ; // modification, translation, compilation, or representation of this
+ 0004           ; // software except as specified above is prohibited without the express
+ 0004           ; // written permission of Cypress.
+ 0004           ; //
+ 0004           ; // Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,
+ 0004           ; // WITH REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ 0004           ; // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ 0004           ; // Cypress reserves the right to make changes without further notice to the
+ 0004           ; // materials described herein. Cypress does not assume any liability arising
+ 0004           ; // out of the application or use of any product or circuit described herein.
+ 0004           ; // Cypress does not authorize its products for use as critical components in
+ 0004           ; // life-support systems where a malfunction or failure may reasonably be
+ 0004           ; // expected to result in significant injury to the user. The inclusion of
+ 0004           ; // Cypress' product in a life-support systems application implies that the
+ 0004           ; // manufacturer assumes all risk of such use and in doing so indemnifies
+ 0004           ; // Cypress against all charges.
+ 0004           ; //
+ 0004           ; // Use may be limited by and subject to the applicable Cypress software
+ 0004           ; // license agreement.
+ 0004           ; //
+ 0004           ; //--------------------------------------------------------------------------
+ 0004           ; //*****************************************************************************
+ 0004           ; //*****************************************************************************
+ 0004           ; //  FILENAME: main.c
+ 0004           ; //   Version: 1.0, Updated on 21 November 2008
+ 0004           ; //    Revision 1.0, Updated on 02 August 2012
+ 0004           ; //  DESCRIPTION: Main file of the Example_Measure_5V Project.
+ 0004           ; //
+ 0004           ; //-----------------------------------------------------------------------------
+ 0004           ; //  Copyright (c) Cypress MicroSystems 2000-2003. All Rights Reserved.
+ 0004           ; //*****************************************************************************
+ 0004           ; //*****************************************************************************
+ 0004           ; //*****************************************************************************
+ 0004           ; // 
+ 0004           ; //Project Objective
+ 0004           ; //        To measure a 0-5V input voltage using ADCINCVR and display it on LCD
+ 0004           ; //
+ 0004           ; //Overview
+ 0004           ; //  A 0 to 5V input voltage applied to P0[1] is measured using an ADCINCVR configured 
+ 0004           ; //  with 12 bit resolution.  The ADC value is converted into a floating point value that 
+ 0004           ; //  represents the input voltage and then is displayed on the LCD.  
+ 0004           ; //
+ 0004           ; //    The following changes were made to the default settings in the Device Editor:
+ 0004           ; // 
+ 0004           ; //    Add a PGA UM in the project which is available under Amplifiers section
+ 0004           ; //    place it in ACB00 and rename it as PGA
+ 0004           ; //
+ 0004           ; //    Add ADCINCVR UM available under ADC section
+ 0004           ; //    Place it in ASC10 and rename it to ADC
+ 0004           ; //
+ 0004           ; //    Place a LCD UM which is avilable under Misc Digital section
+ 0004           ; //    Rename it to LCD
+ 0004           ; //
+ 0004           ; //    Set the global resources and UM parameters in the Device Editor as shown under 
+ 0004           ; //    "Project Settings" ahead.
+ 0004           ; //
+ 0004           ; //    // Circuit Connections
+ 0004           ; //    This example can be tested using the CY3210 PSoC Eval1 board.  The following connections
+ 0004           ; //    are to be made.  
+ 0004           ; // 
+ 0004           ; //    PSoC
+ 0004           ; //    --------
+ 0004           ; //    P0[1] - PGA Input.  Connect VR signal from J5 to P0[1] on J6
+ 0004           ; //
+ 0004           ; //    Following are the connections with LCD
+ 0004           ; //    P2[0] - DB4 Data Bit 0
+ 0004           ; //    P2[1] - DB5 Data Bit 1
+ 0004           ; //    P2[2] - DB6 Data Bit 2
+ 0004           ; //    P2[3] - DB7 Data Bit 3
+ 0004           ; //    P2[4] - E LCD Enable
+ 0004           ; //    P2[5] - RS Register Select
+ 0004           ; //    P2[6] - R/W Read/ Not Write
+ 0004           ; //    LCD (Connect LCD on J9 on CY3210 kit.
+ 0004           ; //
+ 0004           ; //Project Settings
+ 0004           ; //
+ 0004           ; //    Global Resources 
+ 0004           ; //      CPU_Clock             = SysClk/2
+ 0004           ; //            VC1 `                   = 6
+ 0004           ; //            Analog Power    = SC On/ Ref High
+ 0004           ; //            Ref Mux                 = [Vdd/2] +/- [Vdd/2]
+ 0004           ; //     
+ 0004           ; //User Module Parameters
+ 0004           ; //      PGA
+ 0004           ; //            Gain                    = 1.000
+ 0004           ; //            Input                   = AnalogColumn_InputMux_0
+ 0004           ; //            Reference               - Vss
+ 0004           ; //            AnalogBus               = Disable
+ 0004           ; //
+ 0004           ; //      ADC
+ 0004           ; //            Input                   = ACB00
+ 0004           ; //            ClockPhase              = Norm
+ 0004           ; //            Clock                   = VC1
+ 0004           ; //            ADC Resolution  = 12 Bit
+ 0004           ; //            Calc Time               = 10
+ 0004           ; //            DataFormat              = Unsigned
+ 0004           ; //
+ 0004           ; //      LCD
+ 0004           ; //            LCD Port                = Port_2
+ 0004           ; //            BarGraph                = Disable
+ 0004           ; //
+ 0004           ; //    Note: For more information on above parameters please refer UM module datasheets 
+ 0004           ; //                    of these User Modules
+ 0004           ; //    Operation
+ 0004           ; //    On reset, device configuration is loaded and then code in main.c is executed.
+ 0004           ; //    Following are the operations performed by firmware:
+ 0004           ; //    •     PGA is started in HIGHPOWER mode.
+ 0004           ; //    •     LCD is started.
+ 0004           ; //    •     On LCD at location 0,0 “MEASURED VOLTAGE” is printed.
+ 0004           ; //    •     Then global interrupts are enabled.
+ 0004           ; //    •     ADC is started in HIGHPOWER mode and the conversion is started in continuous 
+ 0004           ; //            sampling mode.
+ 0004           ; //    •     The scale factor to convert the ADC counts to voltage is calculated and stored 
+ 0004           ; //            in variable fScaleFactor.  The scale factor is calculated as Volts / Count.  
+ 0004           ; //            The input voltage range is 5V and the number of ADC counts is 4096.  So, the 
+ 0004           ; //            scale factor is 5V / 4096
+ 0004           ; //    •     In an infinite loop following operations are performed:
+ 0004           ; //            o       Wait until ADC data is available.
+ 0004           ; //            o       Read ADC Data into variable iData and clear ADC flag. 
+ 0004           ; //            o       Multiply the ADC result by fScaleFactor to get the value of input voltage.  
+ 0004           ; //                    In the multiplication, the variable iData is typecast into a float.
+ 0004           ; //            o       Convert this float value in ASCII string using function ftoa. The function 
+ 0004           ; //                    returns a pointer to the string that holds the converted ASCII value.  
+ 0004           ; //                    To use this function stdlib.h header file is included in project. 
+ 0004           ; //            o       Display this ASCII string on LCD at location row 1 column 0 followed by string “V”.
+ 0004           ; //    To test the project, vary the input voltage on P0[1] and observe the value displayed on the LCD. 
+ 0004           ; //
+ 0004           ; //Note: When varying the input voltage from 0 to 5V, it will be observed that the display will not vary exactly from 0V to 5V.  Instead the display will vary from a few tens of millivolts above zero to a few tens of millivolts below 5V.  This is because the output of the PGA is not rail to rail, and is in the range of about (VSS+50mV) to (VDD-50mV).  This is an expected behavior.  
+ 0004           ; //*****************************************************************************
+ 0004           ; 
+ 0004           ; #include <m8c.h>        // part specific constants and macros
+ 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ; #include "stdlib.h"           // Add this header to use the ftoa function
+ 0004           ; #include "stdio.h"
+ 0004           ; #include "math.h"
+ 0004           ; 
+ 0004           ; #define N_WORDS 8
+ 0004           ; #define LEN_L 8
+ 0004           ; // #define N_WORDS 8
+ 0004           ; int iData;                            // Variable that stores the ADC result
+ 0004           ; float fVolts;                 // Variable that stores the converted voltage value
+ 0004           ; float fScaleFactor;           // Variable that stores the volts/count scale factor
+ 0004           ; char *pResult;                        // Pointer used to store the result returned by ftoa function
+ 0004           ; int iStatus;                  // Status variable for the ftoa function
+ 0004           ; int light_reading;
+ 0004           ; char buffer[17];
+ 0004           ; 
+ 0004           ; // global parameters
+ 0004           ; int MIN_LIGHT_READING = 0;
+ 0004           ; int MAX_LIGHT_READING = 800;
+ 0004           ; BYTE N_LIGHT_BINS = 8;
+ 0004           ; //BYTE N_WORDS = 8;
+ 0004           ; //int MIN_TEMP_READING = -20;
+ 0004           ; //int MAX_TEMP_READING = 100;
+ 0004           ; // BYTE N_TEMP_BINS = 8;
+ 0004           ; // BYTE LEN_L = 8;
+ 0004           ; BYTE len_M = 32;
+ 0004           ; BYTE my_vocab_index = 0;
+ 0004           ; 
+ 0004           ; typedef struct Embedding {
+ 0004           ;       BYTE light_bin;         // 1 byte
+ 0004           ;       //BYTE temp_bin;        // 1 byte
+ 0004           ;       BYTE word;                      // 1 byte
+ 0004           ;       BYTE freq;                      // 1 byte
+ 0004           ; } embedding;
+ 0004           ; 
+ 0004           ; BYTE i;
+ 0004           ; BYTE counter; // temp variable for counter
+ 0004           ; 
+ 0004           ; // function protype definitions
+ 0004           ; void WaitMs(int);
+ 0004           ; void init_my_word_map(BYTE *);
+ 0004           ; BYTE get_light_bin(int);
+ 0004           ; // BYTE get_temp_bin(int);
+ 0004           ; BYTE get_word(BYTE, BYTE);
+ 0004           ; void insert_vocab(embedding *,  BYTE *, BYTE, BYTE, BYTE);
+ 0004           ; // void reorder(embedding *);
+ 0004           ; 
+ 0004           ; 
+ 0004           ; void WaitMs(int ms) { 
+ 0004                   .dbline 196
+ 0004           ; //    ms delay at 3MHz clock
+ 0004           ;       int i, j;
+ 0004           ;       for(i = 0; i < ms; i++)
+ 0004 560300            mov [X+3],0
+ 0007 560200            mov [X+2],0
+ 000A 801D              xjmp L5
+ 000C           L2:
+ 000C                   .dbline 197
+ 000C           ;               for(j = 0; j < 120; j++);
+ 000C 560100            mov [X+1],0
+ 000F 560000            mov [X+0],0
+ 0012           L6:
+ 0012                   .dbline 197
+ 0012           L7:
+ 0012                   .dbline 197
+ 0012 7701              inc [X+1]
+ 0014 0F0000            adc [X+0],0
+ 0017                   .dbline 197
+ 0017 5201              mov A,[X+1]
+ 0019 1178              sub A,120
+ 001B 5200              mov A,[X+0]
+ 001D 3180              xor A,-128
+ 001F 1980              sbb A,(0 ^ 0x80)
+ 0021 CFF0              jc L6
+ 0023           X0:
+ 0023           L3:
+ 0023                   .dbline 196
+ 0023 7703              inc [X+3]
+ 0025 0F0200            adc [X+2],0
+ 0028           L5:
+ 0028                   .dbline 196
+ 0028 5203              mov A,[X+3]
+ 002A 13FC              sub A,[X-4]
+ 002C 52FB              mov A,[X-5]
+ 002E 3180              xor A,-128
+ 0030 62D000            mov REG[0xd0],>__r0
+ 0033 5300              mov [__rX],A
+ 0035 5202              mov A,[X+2]
+ 0037 3180              xor A,-128
+ 0039 1A00              sbb A,[__rX]
+ 003B CFD0              jc L2
+ 003D           X1:
+ 003D                   .dbline -2
+ 003D           L1:
+ 003D 38FC              add SP,-4
+ 003F 20                pop X
+ 0040                   .dbline 0 ; func end
+ 0040 7F                ret
+ 0041                   .dbsym l i 2 I
+ 0041                   .dbsym l j 0 I
+ 0041                   .dbsym l ms -5 I
+ 0041                   .dbend
+ 0041                   .dbfunc e init_my_word_map _init_my_word_map fV
+ 0041           ;              i -> X+0
+ 0041           ;    my_word_map -> X-5
+ 0041           _init_my_word_map::
+ 0041                   .dbline -1
+ 0041 10                push X
+ 0042 4F                mov X,SP
+ 0043 3801              add SP,1
+ 0045                   .dbline 200
+ 0045           ; }
+ 0045           ; 
+ 0045           ; void init_my_word_map(BYTE *my_word_map) {
+ 0045                   .dbline 203
+ 0045           ;       BYTE i;
+ 0045           ;       // N_WORDS = 16;
+ 0045           ;       for (i = 0; i < N_WORDS; i++) my_word_map[i] = LEN_L;           // initializing to default index
+ 0045 560000            mov [X+0],0
+ 0048 801D              xjmp L14
+ 004A           L11:
+ 004A                   .dbline 203
+ 004A 62D000            mov REG[0xd0],>__r0
+ 004D 5200              mov A,[X+0]
+ 004F 5300              mov [__r1],A
+ 0051 550000            mov [__r0],0
+ 0054 52FC              mov A,[X-4]
+ 0056 0400              add [__r1],A
+ 0058 52FB              mov A,[X-5]
+ 005A 0C00              adc [__r0],A
+ 005C 5100              mov A,[__r0]
+ 005E 60D5              mov REG[0xd5],A
+ 0060 5008              mov A,8
+ 0062 3F00              mvi [__r1],A
+ 0064           L12:
+ 0064                   .dbline 203
+ 0064 7700              inc [X+0]
+ 0066           L14:
+ 0066                   .dbline 203
+ 0066 3D0008            cmp [X+0],8
+ 0069 CFE0              jc L11
+ 006B           X2:
+ 006B                   .dbline -2
+ 006B           L10:
+ 006B 38FF              add SP,-1
+ 006D 20                pop X
+ 006E                   .dbline 0 ; func end
+ 006E 7F                ret
+ 006F                   .dbsym l i 0 c
+ 006F                   .dbsym l my_word_map -5 pc
+ 006F                   .dbend
+ 006F                   .dbfunc e get_light_bin _get_light_bin fc
+ 006F           ;            bin -> X+4
+ 006F           ;      step_size -> X+0
+ 006F           ;  light_reading -> X-5
+ 006F           _get_light_bin::
+ 006F                   .dbline -1
+ 006F 10                push X
+ 0070 4F                mov X,SP
+ 0071 3807              add SP,7
+ 0073                   .dbline 206
+ 0073           ; }
+ 0073           ; 
+ 0073           ; BYTE get_light_bin(int light_reading) {
+ 0073                   .dbline 208
+ 0073           ; // @param: light_reading: current light reading
+ 0073           ;       float step_size = (MAX_LIGHT_READING - MIN_LIGHT_READING) / N_LIGHT_BINS;
+ 0073 62D000            mov REG[0xd0],>_N_LIGHT_BINS
+ 0076 5100              mov A,[_N_LIGHT_BINS]
+ 0078 62D000            mov REG[0xd0],>__r0
+ 007B 5300              mov [__r1],A
+ 007D 62D000            mov REG[0xd0],>_MAX_LIGHT_READING
+ 0080 5101              mov A,[_MAX_LIGHT_READING+1]
+ 0082 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 0085 1201              sub A,[_MIN_LIGHT_READING+1]
+ 0087 62D000            mov REG[0xd0],>__r0
+ 008A 5300              mov [__r3],A
+ 008C 62D000            mov REG[0xd0],>_MAX_LIGHT_READING
+ 008F 5100              mov A,[_MAX_LIGHT_READING]
+ 0091 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 0094 1A00              sbb A,[_MIN_LIGHT_READING]
+ 0096 62D000            mov REG[0xd0],>__r0
+ 0099 5300              mov [__r2],A
+ 009B 5000              mov A,0
+ 009D 08                push A
+ 009E 5100              mov A,[__r1]
+ 00A0 08                push A
+ 00A1 5100              mov A,[__r2]
+ 00A3 08                push A
+ 00A4 5100              mov A,[__r3]
+ 00A6 08                push A
+ 00A7 7C0000            xcall __divmod_16X16_16
+ 00AA 18                pop A
+ 00AB 5300              mov [__r1],A
+ 00AD 18                pop A
+ 00AE 5300              mov [__r0],A
+ 00B0 38FE              add SP,-2
+ 00B2 5100              mov A,[__r1]
+ 00B4 5403              mov [X+3],A
+ 00B6 5100              mov A,[__r0]
+ 00B8 5402              mov [X+2],A
+ 00BA 480280            tst [X+2],-128
+ 00BD A009              jz X3
+ 00BF 5601FF            mov [X+1],-1
+ 00C2 5600FF            mov [X+0],-1
+ 00C5 8007              jmp X4
+ 00C7           X3:
+ 00C7 560100            mov [X+1],0
+ 00CA 560000            mov [X+0],0
+ 00CD           X4:
+ 00CD 5200              mov A,[X+0]
+ 00CF 08                push A
+ 00D0 5201              mov A,[X+1]
+ 00D2 08                push A
+ 00D3 5202              mov A,[X+2]
+ 00D5 08                push A
+ 00D6 5203              mov A,[X+3]
+ 00D8 08                push A
+ 00D9 62D000            mov REG[0xd0],>__r0
+ 00DC 7C0000            xcall __long2fp
+ 00DF 18                pop A
+ 00E0 5403              mov [X+3],A
+ 00E2 18                pop A
+ 00E3 5402              mov [X+2],A
+ 00E5 18                pop A
+ 00E6 5401              mov [X+1],A
+ 00E8 18                pop A
+ 00E9 5400              mov [X+0],A
+ 00EB                   .dbline 209
+ 00EB           ;       BYTE bin = (BYTE)ceil((light_reading - MIN_LIGHT_READING)/ step_size);
+ 00EB 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 00EE 52FC              mov A,[X-4]
+ 00F0 1201              sub A,[_MIN_LIGHT_READING+1]
+ 00F2 62D000            mov REG[0xd0],>__r0
+ 00F5 5300              mov [__r1],A
+ 00F7 52FB              mov A,[X-5]
+ 00F9 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 00FC 1A00              sbb A,[_MIN_LIGHT_READING]
+ 00FE 62D000            mov REG[0xd0],>__r0
+ 0101 5300              mov [__r0],A
+ 0103 5100              mov A,[__r1]
+ 0105 5300              mov [__r3],A
+ 0107 5100              mov A,[__r0]
+ 0109 5300              mov [__r2],A
+ 010B 470080            tst [__r2],-128
+ 010E A009              jz X5
+ 0110 5500FF            mov [__r1],-1
+ 0113 5500FF            mov [__r0],-1
+ 0116 800A              jmp X6
+ 0118           X5:
+ 0118 62D000            mov REG[0xd0],>__r0
+ 011B 550000            mov [__r1],0
+ 011E 550000            mov [__r0],0
+ 0121           X6:
+ 0121 62D000            mov REG[0xd0],>__r0
+ 0124 5100              mov A,[__r0]
+ 0126 08                push A
+ 0127 5100              mov A,[__r1]
+ 0129 08                push A
+ 012A 5100              mov A,[__r2]
+ 012C 08                push A
+ 012D 5100              mov A,[__r3]
+ 012F 08                push A
+ 0130 7C0000            xcall __long2fp
+ 0133 18                pop A
+ 0134 5300              mov [__r3],A
+ 0136 18                pop A
+ 0137 5300              mov [__r2],A
+ 0139 18                pop A
+ 013A 5300              mov [__r1],A
+ 013C 18                pop A
+ 013D 5300              mov [__r0],A
+ 013F 5200              mov A,[X+0]
+ 0141 08                push A
+ 0142 5201              mov A,[X+1]
+ 0144 08                push A
+ 0145 5202              mov A,[X+2]
+ 0147 08                push A
+ 0148 5203              mov A,[X+3]
+ 014A 08                push A
+ 014B 5100              mov A,[__r0]
+ 014D 08                push A
+ 014E 5100              mov A,[__r1]
+ 0150 08                push A
+ 0151 5100              mov A,[__r2]
+ 0153 08                push A
+ 0154 5100              mov A,[__r3]
+ 0156 08                push A
+ 0157 7C0000            xcall __fpdiv
+ 015A 18                pop A
+ 015B 5300              mov [__r3],A
+ 015D 18                pop A
+ 015E 5300              mov [__r2],A
+ 0160 18                pop A
+ 0161 5300              mov [__r1],A
+ 0163 18                pop A
+ 0164 38FC              add SP,-4
+ 0166 08                push A
+ 0167 5100              mov A,[__r1]
+ 0169 08                push A
+ 016A 5100              mov A,[__r2]
+ 016C 08                push A
+ 016D 5100              mov A,[__r3]
+ 016F 08                push A
+ 0170 7C0000            xcall _ceilf
+ 0173 38FC              add SP,-4
+ 0175 62D000            mov REG[0xd0],>__r0
+ 0178 5047              mov A,71
+ 017A 08                push A
+ 017B 5000              mov A,0
+ 017D 08                push A
+ 017E 08                push A
+ 017F 08                push A
+ 0180 5100              mov A,[__r0]
+ 0182 08                push A
+ 0183 5100              mov A,[__r1]
+ 0185 08                push A
+ 0186 5100              mov A,[__r2]
+ 0188 08                push A
+ 0189 5100              mov A,[__r3]
+ 018B 08                push A
+ 018C 7C0000            xcall __fpcmp
+ 018F 38F8              add SP,-8
+ 0191 39FF              cmp A,-1
+ 0193 A047              jz L17
+ 0195 5047              mov A,71
+ 0197 08                push A
+ 0198 5000              mov A,0
+ 019A 08                push A
+ 019B 08                push A
+ 019C 08                push A
+ 019D 5100              mov A,[__r0]
+ 019F 08                push A
+ 01A0 5100              mov A,[__r1]
+ 01A2 08                push A
+ 01A3 5100              mov A,[__r2]
+ 01A5 08                push A
+ 01A6 5100              mov A,[__r3]
+ 01A8 08                push A
+ 01A9 7C0000            xcall __fpsub
+ 01AC 18                pop A
+ 01AD 5300              mov [__r7],A
+ 01AF 18                pop A
+ 01B0 5300              mov [__r6],A
+ 01B2 18                pop A
+ 01B3 5300              mov [__r5],A
+ 01B5 18                pop A
+ 01B6 38FC              add SP,-4
+ 01B8 08                push A
+ 01B9 5100              mov A,[__r5]
+ 01BB 08                push A
+ 01BC 5100              mov A,[__r6]
+ 01BE 08                push A
+ 01BF 5100              mov A,[__r7]
+ 01C1 08                push A
+ 01C2 7C0000            xcall __fp2long
+ 01C5 18                pop A
+ 01C6 5300              mov [__r5],A
+ 01C8 18                pop A
+ 01C9 5300              mov [__r4],A
+ 01CB 38FE              add SP,-2
+ 01CD 5100              mov A,[__r5]
+ 01CF 0100              add A,0
+ 01D1 5406              mov [X+6],A
+ 01D3 5100              mov A,[__r4]
+ 01D5 0980              adc A,-128
+ 01D7 5405              mov [X+5],A
+ 01D9 8023              xjmp L18
+ 01DB           L17:
+ 01DB 62D000            mov REG[0xd0],>__r0
+ 01DE 5100              mov A,[__r0]
+ 01E0 08                push A
+ 01E1 5100              mov A,[__r1]
+ 01E3 08                push A
+ 01E4 5100              mov A,[__r2]
+ 01E6 08                push A
+ 01E7 5100              mov A,[__r3]
+ 01E9 08                push A
+ 01EA 7C0000            xcall __fp2long
+ 01ED 18                pop A
+ 01EE 5300              mov [__r1],A
+ 01F0 18                pop A
+ 01F1 5300              mov [__r0],A
+ 01F3 38FE              add SP,-2
+ 01F5 5100              mov A,[__r1]
+ 01F7 5406              mov [X+6],A
+ 01F9 5100              mov A,[__r0]
+ 01FB 5405              mov [X+5],A
+ 01FD           L18:
+ 01FD 62D000            mov REG[0xd0],>__r0
+ 0200 5206              mov A,[X+6]
+ 0202 5404              mov [X+4],A
+ 0204                   .dbline 210
+ 0204           ;       return bin;
+ 0204 5204              mov A,[X+4]
+ 0206                   .dbline -2
+ 0206           L15:
+ 0206 38F9              add SP,-7
+ 0208 20                pop X
+ 0209                   .dbline 0 ; func end
+ 0209 7F                ret
+ 020A                   .dbsym l bin 4 c
+ 020A                   .dbsym l step_size 0 D
+ 020A                   .dbsym l light_reading -5 I
+ 020A                   .dbend
+ 020A                   .dbfunc e get_word _get_word fc
+ 020A           ;       temp_bin -> X-5
+ 020A           ;      light_bin -> X-4
+ 020A           _get_word::
+ 020A                   .dbline -1
+ 020A 10                push X
+ 020B 4F                mov X,SP
+ 020C                   .dbline 213
+ 020C           ; }
+ 020C           ; 
+ 020C           ; BYTE get_word(BYTE light_bin, BYTE temp_bin) {
+ 020C                   .dbline 217
+ 020C           ;       // @param:  light_bin, temp_bin: light & temperature bins
+ 020C           ;       // returns encoded light and temperature bins using a hash function
+ 020C           ;       // return 1 + (light_bin - 1) * KEY + (temp_bin - 1);
+ 020C           ;     return light_bin;
+ 020C 52FC              mov A,[X-4]
+ 020E 62D000            mov REG[0xd0],>__r0
+ 0211                   .dbline -2
+ 0211           L19:
+ 0211 20                pop X
+ 0212                   .dbline 0 ; func end
+ 0212 7F                ret
+ 0213                   .dbsym l temp_bin -5 c
+ 0213                   .dbsym l light_bin -4 c
+ 0213                   .dbend
+ 0213                   .dbfunc e insert_vocab _insert_vocab fV
+ 0213                   .dbstruct 0 3 Embedding
+ 0213                   .dbfield 0 light_bin c
+ 0213                   .dbfield 1 word c
+ 0213                   .dbfield 2 freq c
+ 0213                   .dbend
+ 0213           ;          index -> X+0
+ 0213           ;           word -> X-10
+ 0213           ;       temp_bin -> X-9
+ 0213           ;      light_bin -> X-8
+ 0213           ;    my_word_map -> X-7
+ 0213           ;          vocab -> X-5
+ 0213           _insert_vocab::
+ 0213                   .dbline -1
+ 0213 10                push X
+ 0214 4F                mov X,SP
+ 0215 3801              add SP,1
+ 0217                   .dbline 220
+ 0217           ; }
+ 0217           ; 
+ 0217           ; void insert_vocab(embedding *vocab, BYTE *my_word_map, BYTE light_bin, BYTE temp_bin, BYTE word) {
+ 0217                   .dbline 223
+ 0217           ;       // if (my_vocab_index == SIZE(vocab))
+ 0217           ;       // !!!!!
+ 0217           ;       BYTE index = my_word_map[word - 1];             // word is 1 ... N_WORDS
+ 0217 62D000            mov REG[0xd0],>__r0
+ 021A 52F6              mov A,[X-10]
+ 021C 5300              mov [__r1],A
+ 021E 550000            mov [__r0],0
+ 0221 160001            sub [__r1],1
+ 0224 1E0000            sbb [__r0],0
+ 0227 52FA              mov A,[X-6]
+ 0229 0400              add [__r1],A
+ 022B 52F9              mov A,[X-7]
+ 022D 0C00              adc [__r0],A
+ 022F 5100              mov A,[__r0]
+ 0231 60D4              mov REG[0xd4],A
+ 0233 3E00              mvi A,[__r1]
+ 0235 5400              mov [X+0],A
+ 0237                   .dbline 224
+ 0237           ;       if (index == LEN_L) {
+ 0237 3D0008            cmp [X+0],8
+ 023A B0D0              jnz L21
+ 023C                   .dbline 226
+ 023C           ;               // insert
+ 023C           ;               vocab[my_vocab_index].light_bin = light_bin;
+ 023C                   .dbline 226
+ 023C 62D000            mov REG[0xd0],>_my_vocab_index
+ 023F 5100              mov A,[_my_vocab_index]
+ 0241 62D000            mov REG[0xd0],>__r0
+ 0244 5300              mov [__r1],A
+ 0246 5000              mov A,0
+ 0248 08                push A
+ 0249 5100              mov A,[__r1]
+ 024B 08                push A
+ 024C 5000              mov A,0
+ 024E 08                push A
+ 024F 5003              mov A,3
+ 0251 08                push A
+ 0252 7C0000            xcall __mul16
+ 0255 38FC              add SP,-4
+ 0257 5100              mov A,[__rX]
+ 0259 5300              mov [__r1],A
+ 025B 5100              mov A,[__rY]
+ 025D 5300              mov [__r0],A
+ 025F 52FC              mov A,[X-4]
+ 0261 0400              add [__r1],A
+ 0263 52FB              mov A,[X-5]
+ 0265 0C00              adc [__r0],A
+ 0267 5100              mov A,[__r0]
+ 0269 60D5              mov REG[0xd5],A
+ 026B 52F8              mov A,[X-8]
+ 026D 3F00              mvi [__r1],A
+ 026F                   .dbline 228
+ 026F           ;               // vocab[my_vocab_index].temp_bin = temp_bin;
+ 026F           ;               vocab[my_vocab_index].word = word;
+ 026F 62D000            mov REG[0xd0],>_my_vocab_index
+ 0272 5100              mov A,[_my_vocab_index]
+ 0274 62D000            mov REG[0xd0],>__r0
+ 0277 5300              mov [__r1],A
+ 0279 5000              mov A,0
+ 027B 08                push A
+ 027C 5100              mov A,[__r1]
+ 027E 08                push A
+ 027F 5000              mov A,0
+ 0281 08                push A
+ 0282 5003              mov A,3
+ 0284 08                push A
+ 0285 7C0000            xcall __mul16
+ 0288 38FC              add SP,-4
+ 028A 5100              mov A,[__rX]
+ 028C 5300              mov [__r1],A
+ 028E 5100              mov A,[__rY]
+ 0290 5300              mov [__r0],A
+ 0292 52FC              mov A,[X-4]
+ 0294 0400              add [__r1],A
+ 0296 52FB              mov A,[X-5]
+ 0298 0C00              adc [__r0],A
+ 029A 060001            add [__r1],1
+ 029D 0E0000            adc [__r0],0
+ 02A0 5100              mov A,[__r0]
+ 02A2 60D5              mov REG[0xd5],A
+ 02A4 52F6              mov A,[X-10]
+ 02A6 3F00              mvi [__r1],A
+ 02A8                   .dbline 229
+ 02A8           ;               vocab[my_vocab_index].freq = 1;
+ 02A8 62D000            mov REG[0xd0],>_my_vocab_index
+ 02AB 5100              mov A,[_my_vocab_index]
+ 02AD 62D000            mov REG[0xd0],>__r0
+ 02B0 5300              mov [__r1],A
+ 02B2 5000              mov A,0
+ 02B4 08                push A
+ 02B5 5100              mov A,[__r1]
+ 02B7 08                push A
+ 02B8 5000              mov A,0
+ 02BA 08                push A
+ 02BB 5003              mov A,3
+ 02BD 08                push A
+ 02BE 7C0000            xcall __mul16
+ 02C1 38FC              add SP,-4
+ 02C3 5100              mov A,[__rX]
+ 02C5 5300              mov [__r1],A
+ 02C7 5100              mov A,[__rY]
+ 02C9 5300              mov [__r0],A
+ 02CB 52FC              mov A,[X-4]
+ 02CD 0400              add [__r1],A
+ 02CF 52FB              mov A,[X-5]
+ 02D1 0C00              adc [__r0],A
+ 02D3 060002            add [__r1],2
+ 02D6 0E0000            adc [__r0],0
+ 02D9 5100              mov A,[__r0]
+ 02DB 60D5              mov REG[0xd5],A
+ 02DD 5001              mov A,1
+ 02DF 3F00              mvi [__r1],A
+ 02E1                   .dbline 230
+ 02E1           ;               my_word_map[word - 1] = my_vocab_index;
+ 02E1 52F6              mov A,[X-10]
+ 02E3 5300              mov [__r1],A
+ 02E5 550000            mov [__r0],0
+ 02E8 160001            sub [__r1],1
+ 02EB 1E0000            sbb [__r0],0
+ 02EE 52FA              mov A,[X-6]
+ 02F0 0400              add [__r1],A
+ 02F2 52F9              mov A,[X-7]
+ 02F4 0C00              adc [__r0],A
+ 02F6 5100              mov A,[__r0]
+ 02F8 60D5              mov REG[0xd5],A
+ 02FA 62D000            mov REG[0xd0],>_my_vocab_index
+ 02FD 5100              mov A,[_my_vocab_index]
+ 02FF 62D000            mov REG[0xd0],>__r0
+ 0302 3F00              mvi [__r1],A
+ 0304                   .dbline 231
+ 0304           ;               my_vocab_index++;       // move to the next index
+ 0304 62D000            mov REG[0xd0],>_my_vocab_index
+ 0307 7600              inc [_my_vocab_index]
+ 0309                   .dbline 232
+ 0309           ;       }
+ 0309 8044              xjmp L22
+ 030B           L21:
+ 030B                   .dbline 233
+ 030B           ;       else {
+ 030B                   .dbline 234
+ 030B           ;               vocab[index].freq++;
+ 030B 62D000            mov REG[0xd0],>__r0
+ 030E 5200              mov A,[X+0]
+ 0310 5300              mov [__r1],A
+ 0312 5000              mov A,0
+ 0314 08                push A
+ 0315 5100              mov A,[__r1]
+ 0317 08                push A
+ 0318 5000              mov A,0
+ 031A 08                push A
+ 031B 5003              mov A,3
+ 031D 08                push A
+ 031E 7C0000            xcall __mul16
+ 0321 38FC              add SP,-4
+ 0323 5100              mov A,[__rX]
+ 0325 5300              mov [__r1],A
+ 0327 5100              mov A,[__rY]
+ 0329 5300              mov [__r0],A
+ 032B 52FC              mov A,[X-4]
+ 032D 0400              add [__r1],A
+ 032F 52FB              mov A,[X-5]
+ 0331 0C00              adc [__r0],A
+ 0333 060002            add [__r1],2
+ 0336 0E0000            adc [__r0],0
+ 0339 5100              mov A,[__r0]
+ 033B 60D4              mov REG[0xd4],A
+ 033D 3E00              mvi A,[__r1]
+ 033F 7A00              dec [__r1]
+ 0341 5300              mov [__r2],A
+ 0343 060001            add [__r2],1
+ 0346 5100              mov A,[__r0]
+ 0348 60D5              mov REG[0xd5],A
+ 034A 5100              mov A,[__r2]
+ 034C 3F00              mvi [__r1],A
+ 034E                   .dbline 235
+ 034E           ;       }
+ 034E           L22:
+ 034E                   .dbline -2
+ 034E           L20:
+ 034E 38FF              add SP,-1
+ 0350 20                pop X
+ 0351                   .dbline 0 ; func end
+ 0351 7F                ret
+ 0352                   .dbsym l index 0 c
+ 0352                   .dbsym l word -10 c
+ 0352                   .dbsym l temp_bin -9 c
+ 0352                   .dbsym l light_bin -8 c
+ 0352                   .dbsym l my_word_map -7 pc
+ 0352                   .dbsym l vocab -5 pS[Embedding]
+ 0352                   .dbend
+ 0352                   .dbfunc e main _main fV
+ 0352           ;       my_vocab -> X+10
+ 0352           ;    my_word_map -> X+2
+ 0352           ;      light_bin -> X+1
+ 0352           ;           word -> X+0
+ 0352           _main::
+ 0352                   .dbline -1
+ 0352 10                push X
+ 0353 4F                mov X,SP
+ 0354 3822              add SP,34
+ 0356                   .dbline 238
+ 0356           ; }
+ 0356           ; 
+ 0356           ; void main(void) {
+ 0356                   .dbline 247
+ 0356           ; 
+ 0356           ; /*#############################################################################*/
+ 0356           ;     embedding my_vocab[LEN_L];             // table to store the current vocab for L seconds. N_WORDS = 16
+ 0356           ;       //embedding sensed_vocab[16];       // table to store the sensed vocab for M seconds
+ 0356           ;       BYTE my_word_map[N_WORDS];
+ 0356           ;       BYTE light_bin;
+ 0356           ;       // BYTE temp_bin;
+ 0356           ;       BYTE word;
+ 0356           ;     init_my_word_map(my_word_map);      // initialize the word-> index map to get index of word in my_vocab
+ 0356 62D000            mov REG[0xd0],>__r0
+ 0359 5A00              mov [__r1],X
+ 035B 060002            add [__r1],2
+ 035E 5007              mov A,7
+ 0360 08                push A
+ 0361 5100              mov A,[__r1]
+ 0363 08                push A
+ 0364 9CDB              xcall _init_my_word_map
+ 0366 38FE              add SP,-2
+ 0368                   .dbline 250
+ 0368           ; /*#############################################################################*/
+ 0368           ; 
+ 0368           ;     PGA_Start(PGA_HIGHPOWER);                         // Start PGA with Highpower
+ 0368 10                push X
+ 0369 5003              mov A,3
+ 036B 7C0000            xcall _PGA_Start
+ 036E                   .dbline 251
+ 036E           ;       LCD_Start();                                            // Start LCD
+ 036E 7C0000            xcall _LCD_Start
+ 0371 20                pop X
+ 0372                   .dbline 254
+ 0372           ;       //LCD_Position(0,0);                            // Set LCD position to row 0 column 0
+ 0372           ;       //LCD_PrCString("Light = ");            // Print string "MEASURED VOLTAGE" on LCD
+ 0372           ;       M8C_EnableGInt;                                         // Enable Global Interrupts
+ 0372 7101                      or  F, 01h
+ 0374           
+ 0374                   .dbline 255
+ 0374           ;       ADC_Start(ADC_HIGHPOWER);                       // Start ADC by powering SC block at High Power
+ 0374 10                push X
+ 0375 5003              mov A,3
+ 0377 7C0000            xcall _ADC_Start
+ 037A                   .dbline 256
+ 037A           ;       ADC_GetSamples(0);                                      // Have ADC run continuously
+ 037A 5000              mov A,0
+ 037C 7C0000            xcall _ADC_GetSamples
+ 037F 20                pop X
+ 0380                   .dbline 257
+ 0380           ;       fScaleFactor = (float)5/(float)4096;// Calculate Scale Factor.
+ 0380 62D000            mov REG[0xd0],>_fScaleFactor
+ 0383 55003A            mov [_fScaleFactor],58
+ 0386 5501A0            mov [_fScaleFactor+1],-96
+ 0389 550200            mov [_fScaleFactor+2],0
+ 038C 550300            mov [_fScaleFactor+3],0
+ 038F 8259              xjmp L25
+ 0391           L27:
+ 0391                   .dbline 261
+ 0391           ;       //for(counter = 0; counter < 15; counter++)                                                             // Infinite loop
+ 0391           ;       while (1)
+ 0391           ;       {
+ 0391           ;               while(ADC_fIsDataAvailable() == 0); // Loop until value ready
+ 0391           L28:
+ 0391                   .dbline 261
+ 0391 10                push X
+ 0392 7C0000            xcall _ADC_fIsDataAvailable
+ 0395 20                pop X
+ 0396 62D000            mov REG[0xd0],>__r0
+ 0399 3900              cmp A,0
+ 039B AFF5              jz L27
+ 039D                   .dbline 262
+ 039D           ;               iData=ADC_iGetData();                           // Read ADC result
+ 039D 10                push X
+ 039E 7C0000            xcall _ADC_iGetData
+ 03A1 62D000            mov REG[0xd0],>__r0
+ 03A4 5A00              mov [__r0],X
+ 03A6 20                pop X
+ 03A7 08                push A
+ 03A8 5100              mov A,[__r0]
+ 03AA 62D000            mov REG[0xd0],>_iData
+ 03AD 5300              mov [_iData],A
+ 03AF 18                pop A
+ 03B0 5301              mov [_iData+1],A
+ 03B2                   .dbline 263
+ 03B2           ;               ADC_ClearFlag();                                        // Clear ADC flag
+ 03B2 10                push X
+ 03B3 7C0000            xcall _ADC_ClearFlag
+ 03B6 20                pop X
+ 03B7                   .dbline 264
+ 03B7           ;               fVolts = fScaleFactor*(float)iData;     // Calculate voltage using ADC result and scale factor
+ 03B7 62D000            mov REG[0xd0],>_iData
+ 03BA 5101              mov A,[_iData+1]
+ 03BC 62D000            mov REG[0xd0],>__r0
+ 03BF 5300              mov [__r3],A
+ 03C1 62D000            mov REG[0xd0],>_iData
+ 03C4 5100              mov A,[_iData]
+ 03C6 62D000            mov REG[0xd0],>__r0
+ 03C9 5300              mov [__r2],A
+ 03CB 470080            tst [__r2],-128
+ 03CE A009              jz X9
+ 03D0 5500FF            mov [__r1],-1
+ 03D3 5500FF            mov [__r0],-1
+ 03D6 800A              jmp X10
+ 03D8           X9:
+ 03D8 62D000            mov REG[0xd0],>__r0
+ 03DB 550000            mov [__r1],0
+ 03DE 550000            mov [__r0],0
+ 03E1           X10:
+ 03E1 62D000            mov REG[0xd0],>__r0
+ 03E4 5100              mov A,[__r0]
+ 03E6 08                push A
+ 03E7 5100              mov A,[__r1]
+ 03E9 08                push A
+ 03EA 5100              mov A,[__r2]
+ 03EC 08                push A
+ 03ED 5100              mov A,[__r3]
+ 03EF 08                push A
+ 03F0 7C0000            xcall __long2fp
+ 03F3 18                pop A
+ 03F4 5300              mov [__r3],A
+ 03F6 18                pop A
+ 03F7 5300              mov [__r2],A
+ 03F9 18                pop A
+ 03FA 5300              mov [__r1],A
+ 03FC 18                pop A
+ 03FD 08                push A
+ 03FE 5100              mov A,[__r1]
+ 0400 08                push A
+ 0401 5100              mov A,[__r2]
+ 0403 08                push A
+ 0404 5100              mov A,[__r3]
+ 0406 08                push A
+ 0407 62D000            mov REG[0xd0],>_fScaleFactor
+ 040A 5100              mov A,[_fScaleFactor]
+ 040C 08                push A
+ 040D 5101              mov A,[_fScaleFactor+1]
+ 040F 08                push A
+ 0410 5102              mov A,[_fScaleFactor+2]
+ 0412 08                push A
+ 0413 5103              mov A,[_fScaleFactor+3]
+ 0415 08                push A
+ 0416 62D000            mov REG[0xd0],>__r0
+ 0419 7C0000            xcall __fpmul
+ 041C 18                pop A
+ 041D 62D000            mov REG[0xd0],>_fVolts
+ 0420 5303              mov [_fVolts+3],A
+ 0422 18                pop A
+ 0423 5302              mov [_fVolts+2],A
+ 0425 18                pop A
+ 0426 5301              mov [_fVolts+1],A
+ 0428 18                pop A
+ 0429 5300              mov [_fVolts],A
+ 042B 38FC              add SP,-4
+ 042D                   .dbline 266
+ 042D           ;               //pResult = ftoa(fVolts,&iStatus );     // Convernt Float value of voltage into ASCII string
+ 042D           ;               light_reading = (int)( (fVolts / 3.7)*800 );
+ 042D 5040              mov A,64
+ 042F 08                push A
+ 0430 506C              mov A,108
+ 0432 08                push A
+ 0433 50CC              mov A,-52
+ 0435 08                push A
+ 0436 50CD              mov A,-51
+ 0438 08                push A
+ 0439 5100              mov A,[_fVolts]
+ 043B 08                push A
+ 043C 5101              mov A,[_fVolts+1]
+ 043E 08                push A
+ 043F 5102              mov A,[_fVolts+2]
+ 0441 08                push A
+ 0442 5103              mov A,[_fVolts+3]
+ 0444 08                push A
+ 0445 62D000            mov REG[0xd0],>__r0
+ 0448 7C0000            xcall __fpdiv
+ 044B 18                pop A
+ 044C 5300              mov [__r3],A
+ 044E 18                pop A
+ 044F 5300              mov [__r2],A
+ 0451 18                pop A
+ 0452 5300              mov [__r1],A
+ 0454 18                pop A
+ 0455 38FC              add SP,-4
+ 0457 08                push A
+ 0458 5100              mov A,[__r1]
+ 045A 08                push A
+ 045B 5100              mov A,[__r2]
+ 045D 08                push A
+ 045E 5100              mov A,[__r3]
+ 0460 08                push A
+ 0461 5044              mov A,68
+ 0463 08                push A
+ 0464 5048              mov A,72
+ 0466 08                push A
+ 0467 5000              mov A,0
+ 0469 08                push A
+ 046A 08                push A
+ 046B 7C0000            xcall __fpmul
+ 046E 18                pop A
+ 046F 5300              mov [__r3],A
+ 0471 18                pop A
+ 0472 5300              mov [__r2],A
+ 0474 18                pop A
+ 0475 5300              mov [__r1],A
+ 0477 18                pop A
+ 0478 38FC              add SP,-4
+ 047A 08                push A
+ 047B 5100              mov A,[__r1]
+ 047D 08                push A
+ 047E 5100              mov A,[__r2]
+ 0480 08                push A
+ 0481 5100              mov A,[__r3]
+ 0483 08                push A
+ 0484 7C0000            xcall __fp2long
+ 0487 18                pop A
+ 0488 62D000            mov REG[0xd0],>_light_reading
+ 048B 5301              mov [_light_reading+1],A
+ 048D 18                pop A
+ 048E 5300              mov [_light_reading],A
+ 0490 38FE              add SP,-2
+ 0492                   .dbline 267
+ 0492           ;               csprintf(buffer, "%d", light_reading);
+ 0492 5100              mov A,[_light_reading]
+ 0494 08                push A
+ 0495 5101              mov A,[_light_reading+1]
+ 0497 08                push A
+ 0498 5000              mov A,>L30
+ 049A 08                push A
+ 049B 5000              mov A,<L30
+ 049D 08                push A
+ 049E 5000              mov A,>_buffer
+ 04A0 08                push A
+ 04A1 5000              mov A,<_buffer
+ 04A3 08                push A
+ 04A4 7C0000            xcall _csprintf
+ 04A7 38FA              add SP,-6
+ 04A9                   .dbline 269
+ 04A9           ;               
+ 04A9           ;               LCD_Position(0,0);                                      // Set LCD position to row 1 column 0
+ 04A9 10                push X
+ 04AA 5000              mov A,0
+ 04AC 5700              mov X,0
+ 04AE 7C0000            xcall _LCD_Position
+ 04B1                   .dbline 271
+ 04B1           ;                                                                                       // Print voltage value on LCD
+ 04B1           ;               LCD_PrString(buffer);
+ 04B1 5000              mov A,>_buffer
+ 04B3 08                push A
+ 04B4 5000              mov A,<_buffer
+ 04B6 5C                mov X,A
+ 04B7 18                pop A
+ 04B8 7C0000            xcall _LCD_PrString
+ 04BB                   .dbline 272
+ 04BB           ;               LCD_Position(0,5);
+ 04BB 5705              mov X,5
+ 04BD 5000              mov A,0
+ 04BF 7C0000            xcall _LCD_Position
+ 04C2                   .dbline 273
+ 04C2           ;               LCD_PrHexInt(light_reading);
+ 04C2 62D000            mov REG[0xd0],>_light_reading
+ 04C5 5100              mov A,[_light_reading]
+ 04C7 08                push A
+ 04C8 5101              mov A,[_light_reading+1]
+ 04CA 20                pop X
+ 04CB 7C0000            xcall _LCD_PrHexInt
+ 04CE 20                pop X
+ 04CF                   .dbline 276
+ 04CF           ;               //LCD_PrCString(" Lux");                                // Print string " V" on LCD after voltage value
+ 04CF           ;               
+ 04CF           ;               i = 0;
+ 04CF 62D000            mov REG[0xd0],>_i
+ 04D2 550000            mov [_i],0
+ 04D5                   .dbline 278
+ 04D5           ;               //light_bin =  light_reading/100;
+ 04D5           ;               light_bin = get_light_bin(light_reading);
+ 04D5 62D000            mov REG[0xd0],>_light_reading
+ 04D8 5100              mov A,[_light_reading]
+ 04DA 08                push A
+ 04DB 5101              mov A,[_light_reading+1]
+ 04DD 08                push A
+ 04DE 9B8F              xcall _get_light_bin
+ 04E0 38FE              add SP,-2
+ 04E2 62D000            mov REG[0xd0],>__r0
+ 04E5 5401              mov [X+1],A
+ 04E7                   .dbline 279
+ 04E7           ;         word = get_word(light_bin, 1);
+ 04E7 5001              mov A,1
+ 04E9 08                push A
+ 04EA 5201              mov A,[X+1]
+ 04EC 08                push A
+ 04ED 9D1B              xcall _get_word
+ 04EF 62D000            mov REG[0xd0],>__r0
+ 04F2 5400              mov [X+0],A
+ 04F4                   .dbline 280
+ 04F4           ;         insert_vocab(my_vocab, my_word_map, light_bin, 1, word);      // temp_bin hard coded to 1
+ 04F4 5200              mov A,[X+0]
+ 04F6 08                push A
+ 04F7 5001              mov A,1
+ 04F9 08                push A
+ 04FA 5201              mov A,[X+1]
+ 04FC 08                push A
+ 04FD 5A00              mov [__r1],X
+ 04FF 060002            add [__r1],2
+ 0502 5007              mov A,7
+ 0504 08                push A
+ 0505 5100              mov A,[__r1]
+ 0507 08                push A
+ 0508 5A00              mov [__r1],X
+ 050A 06000A            add [__r1],10
+ 050D 5007              mov A,7
+ 050F 08                push A
+ 0510 5100              mov A,[__r1]
+ 0512 08                push A
+ 0513 9CFE              xcall _insert_vocab
+ 0515 38F7              add SP,-9
+ 0517                   .dbline 282
+ 0517           ;               
+ 0517           ;               LCD_Position(1,0);
+ 0517 10                push X
+ 0518 5700              mov X,0
+ 051A 5001              mov A,1
+ 051C 7C0000            xcall _LCD_Position
+ 051F 20                pop X
+ 0520                   .dbline 283
+ 0520           ;               LCD_PrHexInt(word);                                     // dispay light_bin number              
+ 0520 62D000            mov REG[0xd0],>__r0
+ 0523 5200              mov A,[X+0]
+ 0525 5300              mov [__r1],A
+ 0527 10                push X
+ 0528 5000              mov A,0
+ 052A 08                push A
+ 052B 5100              mov A,[__r1]
+ 052D 20                pop X
+ 052E 7C0000            xcall _LCD_PrHexInt
+ 0531                   .dbline 284
+ 0531           ;               LCD_Position(1,5);
+ 0531 5705              mov X,5
+ 0533 5001              mov A,1
+ 0535 7C0000            xcall _LCD_Position
+ 0538 20                pop X
+ 0539                   .dbline 285
+ 0539           ;               LCD_PrHexInt(my_vocab[my_word_map[word - 1]].freq);
+ 0539 62D000            mov REG[0xd0],>__r0
+ 053C 550007            mov [__r0],7
+ 053F 5A00              mov [__r1],X
+ 0541 060001            add [__r1],1
+ 0544 5200              mov A,[X+0]
+ 0546 0200              add A,[__r1]
+ 0548 5300              mov [__r1],A
+ 054A 5000              mov A,0
+ 054C 0A00              adc A,[__r0]
+ 054E 60D4              mov REG[0xd4],A
+ 0550 3E00              mvi A,[__r1]
+ 0552 5300              mov [__r1],A
+ 0554 5000              mov A,0
+ 0556 08                push A
+ 0557 5100              mov A,[__r1]
+ 0559 08                push A
+ 055A 5000              mov A,0
+ 055C 08                push A
+ 055D 5003              mov A,3
+ 055F 08                push A
+ 0560 7C0000            xcall __mul16
+ 0563 38FC              add SP,-4
+ 0565 5100              mov A,[__rX]
+ 0567 5300              mov [__r1],A
+ 0569 5100              mov A,[__rY]
+ 056B 5300              mov [__r0],A
+ 056D 5A00              mov [__r3],X
+ 056F 06000C            add [__r3],12
+ 0572 5100              mov A,[__r3]
+ 0574 0400              add [__r1],A
+ 0576 0E0007            adc [__r0],7
+ 0579 5100              mov A,[__r0]
+ 057B 60D4              mov REG[0xd4],A
+ 057D 3E00              mvi A,[__r1]
+ 057F 5300              mov [__r1],A
+ 0581 10                push X
+ 0582 5000              mov A,0
+ 0584 08                push A
+ 0585 5100              mov A,[__r1]
+ 0587 20                pop X
+ 0588 7C0000            xcall _LCD_PrHexInt
+ 058B 20                pop X
+ 058C 8024              xjmp L34
+ 058E           L33:
+ 058E                   .dbline 287
+ 058E           ;               while (i < word)                                                // broadcast light_bin number 
+ 058E           ;               { 
+ 058E                   .dbline 288
+ 058E           ;                       PWM8_Speaker_Start();                           // Loud bit
+ 058E 10                push X
+ 058F 7C0000            xcall _PWM8_Speaker_Start
+ 0592 20                pop X
+ 0593                   .dbline 289
+ 0593           ;                       WaitMs(200);
+ 0593 5000              mov A,0
+ 0595 08                push A
+ 0596 50C8              mov A,-56
+ 0598 08                push A
+ 0599 9A65              xcall _WaitMs
+ 059B 38FE              add SP,-2
+ 059D                   .dbline 290
+ 059D           ;                       PWM8_Speaker_Stop();                            // Silent bit (loud parser) 
+ 059D 10                push X
+ 059E 7C0000            xcall _PWM8_Speaker_Stop
+ 05A1 20                pop X
+ 05A2                   .dbline 291
+ 05A2           ;                       WaitMs(200);
+ 05A2 5000              mov A,0
+ 05A4 08                push A
+ 05A5 50C8              mov A,-56
+ 05A7 08                push A
+ 05A8 9A56              xcall _WaitMs
+ 05AA 38FE              add SP,-2
+ 05AC                   .dbline 292
+ 05AC           ;                       i++;
+ 05AC 62D000            mov REG[0xd0],>_i
+ 05AF 7600              inc [_i]
+ 05B1                   .dbline 293
+ 05B1           ;               }
+ 05B1           L34:
+ 05B1                   .dbline 286
+ 05B1 62D000            mov REG[0xd0],>_i
+ 05B4 5100              mov A,[_i]
+ 05B6 3B00              cmp A,[X+0]
+ 05B8 CFD5              jc L33
+ 05BA           X11:
+ 05BA                   .dbline 294
+ 05BA           ;               i = 0;
+ 05BA 62D000            mov REG[0xd0],>_i
+ 05BD 550000            mov [_i],0
+ 05C0 8010              xjmp L37
+ 05C2           L36:
+ 05C2                   .dbline 296
+ 05C2           ;               while (i < ( N_LIGHT_BINS - light_bin) )        // broadcast leftout light_bin Empty field silent bits
+ 05C2           ;               {
+ 05C2                   .dbline 297
+ 05C2           ;                       WaitMs(400);
+ 05C2 5001              mov A,1
+ 05C4 08                push A
+ 05C5 5090              mov A,-112
+ 05C7 08                push A
+ 05C8 9A36              xcall _WaitMs
+ 05CA 38FE              add SP,-2
+ 05CC                   .dbline 298
+ 05CC           ;                       i++;
+ 05CC 62D000            mov REG[0xd0],>_i
+ 05CF 7600              inc [_i]
+ 05D1                   .dbline 299
+ 05D1           ;               } 
+ 05D1           L37:
+ 05D1                   .dbline 295
+ 05D1 62D000            mov REG[0xd0],>_N_LIGHT_BINS
+ 05D4 5100              mov A,[_N_LIGHT_BINS]
+ 05D6 1301              sub A,[X+1]
+ 05D8 62D000            mov REG[0xd0],>__r0
+ 05DB 5300              mov [__r0],A
+ 05DD 62D000            mov REG[0xd0],>_i
+ 05E0 5100              mov A,[_i]
+ 05E2 62D000            mov REG[0xd0],>__r0
+ 05E5 3A00              cmp A,[__r0]
+ 05E7 CFDA              jc L36
+ 05E9           X12:
+ 05E9                   .dbline 302
+ 05E9           ;               //WaitMs(2000);
+ 05E9           ;               
+ 05E9           ;       }
+ 05E9           L25:
+ 05E9                   .dbline 259
+ 05E9 8DA7              xjmp L28
+ 05EB           X8:
+ 05EB                   .dbline -2
+ 05EB           L23:
+ 05EB 38DE              add SP,-34
+ 05ED 20                pop X
+ 05EE                   .dbline 0 ; func end
+ 05EE 8FFF              jmp .
+ 05F0                   .dbsym l my_vocab 10 A[24:8]S[Embedding]
+ 05F0                   .dbsym l my_word_map 2 A[8:8]c
+ 05F0                   .dbsym l light_bin 1 c
+ 05F0                   .dbsym l word 0 c
+ 05F0                   .dbend
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _counter::
+ 0000 00                .byte 0
+ 0001                   .dbsym e counter _counter c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _i::
+ 0000 00                .byte 0
+ 0001                   .dbsym e i _i c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _buffer::
+ 0000 00000000000000000000      .word 0,0,0,0,0
+ 000A 00000000000000    .byte 0,0,0,0,0,0,0
+ 0011                   .dbsym e buffer _buffer A[17:17]c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _light_reading::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e light_reading _light_reading I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _iStatus::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e iStatus _iStatus I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _pResult::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e pResult _pResult pc
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _fScaleFactor::
+ 0000 00000000          .byte 0,0,0,0
+ 0004                   .dbsym e fScaleFactor _fScaleFactor D
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _fVolts::
+ 0000 00000000          .byte 0,0,0,0
+ 0004                   .dbsym e fVolts _fVolts D
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE54287\CE54287\main.c
+ 0000           _iData::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e iData _iData I
+                        .area lit(rom, con, rel, lit)
+ 0000           L30:
+ 0000 256400            .byte 37,'d,0

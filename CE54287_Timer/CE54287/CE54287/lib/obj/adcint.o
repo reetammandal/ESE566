@@ -1,0 +1,104 @@
+XH
+H 3 areas A global symbols
+M adcint.asm
+A text size 0 flags 0
+dbfile lib/adcint.asm
+dbfunc 0 ? 0 I
+dbfile ./lib/ADC.inc
+dbfunc 0 ? 0 I
+dbfile lib/adcint.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/adcint.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
+dbfunc 0 ? 0 I
+A InterruptRAM size 5 flags 20
+S ADC_iResult Def0001
+S ADC_bSampC Def0004
+S _ADC_iResult Def0001
+S ADC_bfStatus Def0003
+S ADC_cCounterU Def0000
+S _ADC_bfStatus Def0003
+A UserModules size 7D flags 0
+dbfile lib/adcint.asm
+dbfunc 0 ? E I
+dbline 68 E
+dbline 82 10
+dbline 90 11
+dbline 92 14
+dbline 94 17
+dbline 2 1A
+dbline 99 1C
+dbline 2 1D
+dbline 9B 1F
+dbline 9C 20
+dbline 9D 22
+dbline 9E 24
+dbline 9F 25
+dbline A0 26
+dbline A1 28
+dbline A3 2A
+dbline A4 2C
+dbline A5 2E
+dbline A8 30
+dbline A9 33
+dbline B1 36
+dbline C5 39
+dbline C7 3C
+dbline DB 3F
+dbline DC 41
+dbline DD 43
+dbline DE 45
+dbline DF 46
+dbline E0 48
+dbline E2 4A
+dbline E3 4B
+dbline E6 4D
+dbline E7 4F
+dbline E8 52
+dbline EA 54
+dbline ED 55
+dbline EE 57
+dbline EF 59
+dbline F0 5B
+dbline 103 5D
+dbline 105 5E
+dbline 107 61
+dbline 108 64
+dbline 10A 66
+dbline 10B 68
+dbline 110 6A
+dbline 111 6D
+dbline 113 70
+dbline 115 73
+dbline 116 76
+dbline 117 79
+dbline 11A 7C
+S _ADC_PWM16_ISR Def0011
+S $lb$ADCMaxNegX4Table Def0000
+S $le$ADCMaxNegX4Table Def000E
+S _ADC_CNT_ISR Def000E
+T 00 00 FF FE FC F8 F0 E0 C0 02 04 08 10 20 40 80
+R 00 00 00 02
+T 00 0E 76 00 00 7E 41 23 FE 43 82 20 43 83 10 71
+R 00 00 00 02 01 03 00 01
+T 00 1B 01 40 70 FE 08 5D 20 5D 22 78 73 D0 03 76
+R 00 00 00 02
+T 00 29 00 00 53 00 02 51 00 00 53
+R 00 00 00 02 01 02 00 01 01 05 00 01 01 08 00 01
+T 00 2F 00 01 62 21 FF 43 23 01 55 00 00 00 41 83
+R 00 00 00 02 01 02 00 01 01 0B 00 01
+T 00 3B EF 41 82 DF 51 00 03 21 0F FF C2 08 22
+R 00 00 00 02 01 07 00 01
+T 00 47 00 01 A0 0B 18 11 01 53 00 01 55 00 02 FF
+R 00 00 00 02 01 02 00 01 01 0A 00 01 01 0D 00 01
+T 00 52 80 02 18 68 00 01 6E 00 02 68 00 01 6E
+R 00 00 00 02 01 06 00 01 01 09 00 01 01 0C 00 01
+T 00 5C 00 02 18 2E 00 03 10 47 00 04 FF A0 17 7A
+R 00 00 00 02 01 02 00 01 01 06 00 01 01 0A 00 01
+T 00 67 00 04 B0 13 41 27 FE 41 23 FE 43 82 20 43
+R 00 00 00 02 01 02 00 01
+T 00 74 83 10 41 E1 FB 41 E1 FE 7E
+R 00 00 00 02

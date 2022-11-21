@@ -1,0 +1,1686 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000           _MIN_LIGHT_READING::
+ 0000 0000              .word 0
+ 0002                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0002                   .dbsym e MIN_LIGHT_READING _MIN_LIGHT_READING I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _MAX_LIGHT_READING::
+ 0000 0320              .word 800
+ 0002                   .dbsym e MAX_LIGHT_READING _MAX_LIGHT_READING I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _N_LIGHT_BINS::
+ 0000 08                .byte 8
+ 0001                   .dbsym e N_LIGHT_BINS _N_LIGHT_BINS c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _x_isr::
+ 0000 0000              .word 0
+ 0002                   .dbsym e x_isr _x_isr I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _len_M::
+ 0000 20                .byte 32
+ 0001                   .dbsym e len_M _len_M c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _my_vocab_index::
+ 0000 00                .byte 0
+ 0001                   .dbsym e my_vocab_index _my_vocab_index c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000                   .dbfunc e WaitMs _WaitMs fV
+ 0000           ;              i -> X+2
+ 0000           ;              j -> X+0
+ 0000           ;             ms -> X-5
+ 0000           _WaitMs::
+ 0000                   .dbline -1
+ 0000 10                push X
+ 0001 4F                mov X,SP
+ 0002 3804              add SP,4
+ 0004                   .dbline 57
+ 0004           ; 
+ 0004           ; #include <m8c.h>        // part specific constants and macros
+ 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ; #include "stdlib.h"           // Add this header to use the ftoa function
+ 0004           ; #include "stdio.h"
+ 0004           ; #include "math.h"
+ 0004           ; 
+ 0004           ; #define N_WORDS 16
+ 0004           ; #define LEN_L 16
+ 0004           ; #define y 150
+ 0004           ; #define z 150
+ 0004           ; // #define N_WORDS 8
+ 0004           ; 
+ 0004           ; 
+ 0004           ; 
+ 0004           ; int iData;                            // Variable that stores the ADC result
+ 0004           ; float fVolts;                 // Variable that stores the converted voltage value
+ 0004           ; float fScaleFactor;           // Variable that stores the volts/count scale factor
+ 0004           ; char *pResult;                        // Pointer used to store the result returned by ftoa function
+ 0004           ; int iStatus;                  // Status variable for the ftoa function
+ 0004           ; int light_reading;
+ 0004           ; char buffer[17];
+ 0004           ; 
+ 0004           ; // global parameters
+ 0004           ; int MIN_LIGHT_READING = 0;
+ 0004           ; int MAX_LIGHT_READING = 800;
+ 0004           ; BYTE N_LIGHT_BINS = 8;
+ 0004           ; int x_isr = 0;
+ 0004           ; //BYTE N_WORDS = 8;
+ 0004           ; //int MIN_TEMP_READING = -20;
+ 0004           ; //int MAX_TEMP_READING = 100;
+ 0004           ; // BYTE N_TEMP_BINS = 8;
+ 0004           ; // BYTE LEN_L = 8;
+ 0004           ; BYTE len_M = 32;
+ 0004           ; BYTE my_vocab_index = 0;
+ 0004           ; 
+ 0004           ; typedef struct Embedding {
+ 0004           ;       BYTE light_bin;         // 1 byte
+ 0004           ;       //BYTE temp_bin;        // 1 byte
+ 0004           ;       BYTE word;                      // 1 byte
+ 0004           ;       BYTE freq;                      // 1 byte
+ 0004           ; } embedding;
+ 0004           ; embedding my_vocab[LEN_L];
+ 0004           ; BYTE i;
+ 0004           ; 
+ 0004           ; 
+ 0004           ; // function protype definitions
+ 0004           ; void WaitMs(int);
+ 0004           ; void init_my_word_map(BYTE *);
+ 0004           ; BYTE get_light_bin(int);
+ 0004           ; // BYTE get_temp_bin(int);
+ 0004           ; BYTE get_word(BYTE, BYTE);
+ 0004           ; void insert_vocab(embedding *,  BYTE *, BYTE, BYTE, BYTE);
+ 0004           ; void reorder(void );
+ 0004           ; 
+ 0004           ; 
+ 0004           ; void WaitMs(int ms) { 
+ 0004                   .dbline 60
+ 0004           ; //    ms delay at 3MHz clock
+ 0004           ;       int i, j;
+ 0004           ;       for(i = 0; i < ms; i++)
+ 0004 560300            mov [X+3],0
+ 0007 560200            mov [X+2],0
+ 000A 801D              xjmp L5
+ 000C           L2:
+ 000C                   .dbline 61
+ 000C           ;               for(j = 0; j < 120; j++);
+ 000C 560100            mov [X+1],0
+ 000F 560000            mov [X+0],0
+ 0012           L6:
+ 0012                   .dbline 61
+ 0012           L7:
+ 0012                   .dbline 61
+ 0012 7701              inc [X+1]
+ 0014 0F0000            adc [X+0],0
+ 0017                   .dbline 61
+ 0017 5201              mov A,[X+1]
+ 0019 1178              sub A,120
+ 001B 5200              mov A,[X+0]
+ 001D 3180              xor A,-128
+ 001F 1980              sbb A,(0 ^ 0x80)
+ 0021 CFF0              jc L6
+ 0023           X0:
+ 0023           L3:
+ 0023                   .dbline 60
+ 0023 7703              inc [X+3]
+ 0025 0F0200            adc [X+2],0
+ 0028           L5:
+ 0028                   .dbline 60
+ 0028 5203              mov A,[X+3]
+ 002A 13FC              sub A,[X-4]
+ 002C 52FB              mov A,[X-5]
+ 002E 3180              xor A,-128
+ 0030 62D000            mov REG[0xd0],>__r0
+ 0033 5300              mov [__rX],A
+ 0035 5202              mov A,[X+2]
+ 0037 3180              xor A,-128
+ 0039 1A00              sbb A,[__rX]
+ 003B CFD0              jc L2
+ 003D           X1:
+ 003D                   .dbline -2
+ 003D           L1:
+ 003D 38FC              add SP,-4
+ 003F 20                pop X
+ 0040                   .dbline 0 ; func end
+ 0040 7F                ret
+ 0041                   .dbsym l i 2 I
+ 0041                   .dbsym l j 0 I
+ 0041                   .dbsym l ms -5 I
+ 0041                   .dbend
+ 0041                   .dbfunc e init_my_word_map _init_my_word_map fV
+ 0041           ;              i -> X+0
+ 0041           ;    my_word_map -> X-5
+ 0041           _init_my_word_map::
+ 0041                   .dbline -1
+ 0041 10                push X
+ 0042 4F                mov X,SP
+ 0043 3801              add SP,1
+ 0045                   .dbline 64
+ 0045           ; }
+ 0045           ; 
+ 0045           ; void init_my_word_map(BYTE *my_word_map) {
+ 0045                   .dbline 67
+ 0045           ;       BYTE i;
+ 0045           ;       // N_WORDS = 16;
+ 0045           ;       for (i = 0; i < N_WORDS; i++) my_word_map[i] = LEN_L;           // initializing to default index
+ 0045 560000            mov [X+0],0
+ 0048 801D              xjmp L14
+ 004A           L11:
+ 004A                   .dbline 67
+ 004A 62D000            mov REG[0xd0],>__r0
+ 004D 5200              mov A,[X+0]
+ 004F 5300              mov [__r1],A
+ 0051 550000            mov [__r0],0
+ 0054 52FC              mov A,[X-4]
+ 0056 0400              add [__r1],A
+ 0058 52FB              mov A,[X-5]
+ 005A 0C00              adc [__r0],A
+ 005C 5100              mov A,[__r0]
+ 005E 60D5              mov REG[0xd5],A
+ 0060 5010              mov A,16
+ 0062 3F00              mvi [__r1],A
+ 0064           L12:
+ 0064                   .dbline 67
+ 0064 7700              inc [X+0]
+ 0066           L14:
+ 0066                   .dbline 67
+ 0066 3D0010            cmp [X+0],16
+ 0069 CFE0              jc L11
+ 006B           X2:
+ 006B                   .dbline -2
+ 006B           L10:
+ 006B 38FF              add SP,-1
+ 006D 20                pop X
+ 006E                   .dbline 0 ; func end
+ 006E 7F                ret
+ 006F                   .dbsym l i 0 c
+ 006F                   .dbsym l my_word_map -5 pc
+ 006F                   .dbend
+ 006F                   .dbfunc e get_light_bin _get_light_bin fc
+ 006F           ;            bin -> X+4
+ 006F           ;      step_size -> X+0
+ 006F           ;  light_reading -> X-5
+ 006F           _get_light_bin::
+ 006F                   .dbline -1
+ 006F 10                push X
+ 0070 4F                mov X,SP
+ 0071 3807              add SP,7
+ 0073                   .dbline 70
+ 0073           ; }
+ 0073           ; 
+ 0073           ; BYTE get_light_bin(int light_reading) {
+ 0073                   .dbline 72
+ 0073           ; // @param: light_reading: current light reading
+ 0073           ;       float step_size = (MAX_LIGHT_READING - MIN_LIGHT_READING) / N_LIGHT_BINS;
+ 0073 62D000            mov REG[0xd0],>_N_LIGHT_BINS
+ 0076 5100              mov A,[_N_LIGHT_BINS]
+ 0078 62D000            mov REG[0xd0],>__r0
+ 007B 5300              mov [__r1],A
+ 007D 62D000            mov REG[0xd0],>_MAX_LIGHT_READING
+ 0080 5101              mov A,[_MAX_LIGHT_READING+1]
+ 0082 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 0085 1201              sub A,[_MIN_LIGHT_READING+1]
+ 0087 62D000            mov REG[0xd0],>__r0
+ 008A 5300              mov [__r3],A
+ 008C 62D000            mov REG[0xd0],>_MAX_LIGHT_READING
+ 008F 5100              mov A,[_MAX_LIGHT_READING]
+ 0091 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 0094 1A00              sbb A,[_MIN_LIGHT_READING]
+ 0096 62D000            mov REG[0xd0],>__r0
+ 0099 5300              mov [__r2],A
+ 009B 5000              mov A,0
+ 009D 08                push A
+ 009E 5100              mov A,[__r1]
+ 00A0 08                push A
+ 00A1 5100              mov A,[__r2]
+ 00A3 08                push A
+ 00A4 5100              mov A,[__r3]
+ 00A6 08                push A
+ 00A7 7C0000            xcall __divmod_16X16_16
+ 00AA 18                pop A
+ 00AB 5300              mov [__r1],A
+ 00AD 18                pop A
+ 00AE 5300              mov [__r0],A
+ 00B0 38FE              add SP,-2
+ 00B2 5100              mov A,[__r1]
+ 00B4 5403              mov [X+3],A
+ 00B6 5100              mov A,[__r0]
+ 00B8 5402              mov [X+2],A
+ 00BA 480280            tst [X+2],-128
+ 00BD A009              jz X3
+ 00BF 5601FF            mov [X+1],-1
+ 00C2 5600FF            mov [X+0],-1
+ 00C5 8007              jmp X4
+ 00C7           X3:
+ 00C7 560100            mov [X+1],0
+ 00CA 560000            mov [X+0],0
+ 00CD           X4:
+ 00CD 5200              mov A,[X+0]
+ 00CF 08                push A
+ 00D0 5201              mov A,[X+1]
+ 00D2 08                push A
+ 00D3 5202              mov A,[X+2]
+ 00D5 08                push A
+ 00D6 5203              mov A,[X+3]
+ 00D8 08                push A
+ 00D9 62D000            mov REG[0xd0],>__r0
+ 00DC 7C0000            xcall __long2fp
+ 00DF 18                pop A
+ 00E0 5403              mov [X+3],A
+ 00E2 18                pop A
+ 00E3 5402              mov [X+2],A
+ 00E5 18                pop A
+ 00E6 5401              mov [X+1],A
+ 00E8 18                pop A
+ 00E9 5400              mov [X+0],A
+ 00EB                   .dbline 73
+ 00EB           ;       BYTE bin = (BYTE)ceil((light_reading - MIN_LIGHT_READING)/ step_size);
+ 00EB 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 00EE 52FC              mov A,[X-4]
+ 00F0 1201              sub A,[_MIN_LIGHT_READING+1]
+ 00F2 62D000            mov REG[0xd0],>__r0
+ 00F5 5300              mov [__r1],A
+ 00F7 52FB              mov A,[X-5]
+ 00F9 62D000            mov REG[0xd0],>_MIN_LIGHT_READING
+ 00FC 1A00              sbb A,[_MIN_LIGHT_READING]
+ 00FE 62D000            mov REG[0xd0],>__r0
+ 0101 5300              mov [__r0],A
+ 0103 5100              mov A,[__r1]
+ 0105 5300              mov [__r3],A
+ 0107 5100              mov A,[__r0]
+ 0109 5300              mov [__r2],A
+ 010B 470080            tst [__r2],-128
+ 010E A009              jz X5
+ 0110 5500FF            mov [__r1],-1
+ 0113 5500FF            mov [__r0],-1
+ 0116 800A              jmp X6
+ 0118           X5:
+ 0118 62D000            mov REG[0xd0],>__r0
+ 011B 550000            mov [__r1],0
+ 011E 550000            mov [__r0],0
+ 0121           X6:
+ 0121 62D000            mov REG[0xd0],>__r0
+ 0124 5100              mov A,[__r0]
+ 0126 08                push A
+ 0127 5100              mov A,[__r1]
+ 0129 08                push A
+ 012A 5100              mov A,[__r2]
+ 012C 08                push A
+ 012D 5100              mov A,[__r3]
+ 012F 08                push A
+ 0130 7C0000            xcall __long2fp
+ 0133 18                pop A
+ 0134 5300              mov [__r3],A
+ 0136 18                pop A
+ 0137 5300              mov [__r2],A
+ 0139 18                pop A
+ 013A 5300              mov [__r1],A
+ 013C 18                pop A
+ 013D 5300              mov [__r0],A
+ 013F 5200              mov A,[X+0]
+ 0141 08                push A
+ 0142 5201              mov A,[X+1]
+ 0144 08                push A
+ 0145 5202              mov A,[X+2]
+ 0147 08                push A
+ 0148 5203              mov A,[X+3]
+ 014A 08                push A
+ 014B 5100              mov A,[__r0]
+ 014D 08                push A
+ 014E 5100              mov A,[__r1]
+ 0150 08                push A
+ 0151 5100              mov A,[__r2]
+ 0153 08                push A
+ 0154 5100              mov A,[__r3]
+ 0156 08                push A
+ 0157 7C0000            xcall __fpdiv
+ 015A 18                pop A
+ 015B 5300              mov [__r3],A
+ 015D 18                pop A
+ 015E 5300              mov [__r2],A
+ 0160 18                pop A
+ 0161 5300              mov [__r1],A
+ 0163 18                pop A
+ 0164 38FC              add SP,-4
+ 0166 08                push A
+ 0167 5100              mov A,[__r1]
+ 0169 08                push A
+ 016A 5100              mov A,[__r2]
+ 016C 08                push A
+ 016D 5100              mov A,[__r3]
+ 016F 08                push A
+ 0170 7C0000            xcall _ceilf
+ 0173 38FC              add SP,-4
+ 0175 62D000            mov REG[0xd0],>__r0
+ 0178 5047              mov A,71
+ 017A 08                push A
+ 017B 5000              mov A,0
+ 017D 08                push A
+ 017E 08                push A
+ 017F 08                push A
+ 0180 5100              mov A,[__r0]
+ 0182 08                push A
+ 0183 5100              mov A,[__r1]
+ 0185 08                push A
+ 0186 5100              mov A,[__r2]
+ 0188 08                push A
+ 0189 5100              mov A,[__r3]
+ 018B 08                push A
+ 018C 7C0000            xcall __fpcmp
+ 018F 38F8              add SP,-8
+ 0191 39FF              cmp A,-1
+ 0193 A047              jz L17
+ 0195 5047              mov A,71
+ 0197 08                push A
+ 0198 5000              mov A,0
+ 019A 08                push A
+ 019B 08                push A
+ 019C 08                push A
+ 019D 5100              mov A,[__r0]
+ 019F 08                push A
+ 01A0 5100              mov A,[__r1]
+ 01A2 08                push A
+ 01A3 5100              mov A,[__r2]
+ 01A5 08                push A
+ 01A6 5100              mov A,[__r3]
+ 01A8 08                push A
+ 01A9 7C0000            xcall __fpsub
+ 01AC 18                pop A
+ 01AD 5300              mov [__r7],A
+ 01AF 18                pop A
+ 01B0 5300              mov [__r6],A
+ 01B2 18                pop A
+ 01B3 5300              mov [__r5],A
+ 01B5 18                pop A
+ 01B6 38FC              add SP,-4
+ 01B8 08                push A
+ 01B9 5100              mov A,[__r5]
+ 01BB 08                push A
+ 01BC 5100              mov A,[__r6]
+ 01BE 08                push A
+ 01BF 5100              mov A,[__r7]
+ 01C1 08                push A
+ 01C2 7C0000            xcall __fp2long
+ 01C5 18                pop A
+ 01C6 5300              mov [__r5],A
+ 01C8 18                pop A
+ 01C9 5300              mov [__r4],A
+ 01CB 38FE              add SP,-2
+ 01CD 5100              mov A,[__r5]
+ 01CF 0100              add A,0
+ 01D1 5406              mov [X+6],A
+ 01D3 5100              mov A,[__r4]
+ 01D5 0980              adc A,-128
+ 01D7 5405              mov [X+5],A
+ 01D9 8023              xjmp L18
+ 01DB           L17:
+ 01DB 62D000            mov REG[0xd0],>__r0
+ 01DE 5100              mov A,[__r0]
+ 01E0 08                push A
+ 01E1 5100              mov A,[__r1]
+ 01E3 08                push A
+ 01E4 5100              mov A,[__r2]
+ 01E6 08                push A
+ 01E7 5100              mov A,[__r3]
+ 01E9 08                push A
+ 01EA 7C0000            xcall __fp2long
+ 01ED 18                pop A
+ 01EE 5300              mov [__r1],A
+ 01F0 18                pop A
+ 01F1 5300              mov [__r0],A
+ 01F3 38FE              add SP,-2
+ 01F5 5100              mov A,[__r1]
+ 01F7 5406              mov [X+6],A
+ 01F9 5100              mov A,[__r0]
+ 01FB 5405              mov [X+5],A
+ 01FD           L18:
+ 01FD 62D000            mov REG[0xd0],>__r0
+ 0200 5206              mov A,[X+6]
+ 0202 5404              mov [X+4],A
+ 0204                   .dbline 74
+ 0204           ;       return bin;
+ 0204 5204              mov A,[X+4]
+ 0206                   .dbline -2
+ 0206           L15:
+ 0206 38F9              add SP,-7
+ 0208 20                pop X
+ 0209                   .dbline 0 ; func end
+ 0209 7F                ret
+ 020A                   .dbsym l bin 4 c
+ 020A                   .dbsym l step_size 0 D
+ 020A                   .dbsym l light_reading -5 I
+ 020A                   .dbend
+ 020A                   .dbfunc e get_word _get_word fc
+ 020A           ;       temp_bin -> X-5
+ 020A           ;      light_bin -> X-4
+ 020A           _get_word::
+ 020A                   .dbline -1
+ 020A 10                push X
+ 020B 4F                mov X,SP
+ 020C                   .dbline 77
+ 020C           ; }
+ 020C           ; 
+ 020C           ; BYTE get_word(BYTE light_bin, BYTE temp_bin) {
+ 020C                   .dbline 81
+ 020C           ;       // @param:  light_bin, temp_bin: light & temperature bins
+ 020C           ;       // returns encoded light and temperature bins using a hash function
+ 020C           ;       // return 1 + (light_bin - 1) * KEY + (temp_bin - 1);
+ 020C           ;     return light_bin;
+ 020C 52FC              mov A,[X-4]
+ 020E 62D000            mov REG[0xd0],>__r0
+ 0211                   .dbline -2
+ 0211           L19:
+ 0211 20                pop X
+ 0212                   .dbline 0 ; func end
+ 0212 7F                ret
+ 0213                   .dbsym l temp_bin -5 c
+ 0213                   .dbsym l light_bin -4 c
+ 0213                   .dbend
+ 0213                   .dbfunc e insert_vocab _insert_vocab fV
+ 0213                   .dbstruct 0 3 Embedding
+ 0213                   .dbfield 0 light_bin c
+ 0213                   .dbfield 1 word c
+ 0213                   .dbfield 2 freq c
+ 0213                   .dbend
+ 0213           ;          index -> X+0
+ 0213           ;           word -> X-10
+ 0213           ;       temp_bin -> X-9
+ 0213           ;      light_bin -> X-8
+ 0213           ;    my_word_map -> X-7
+ 0213           ;          vocab -> X-5
+ 0213           _insert_vocab::
+ 0213                   .dbline -1
+ 0213 10                push X
+ 0214 4F                mov X,SP
+ 0215 3801              add SP,1
+ 0217                   .dbline 84
+ 0217           ; }
+ 0217           ; 
+ 0217           ; void insert_vocab(embedding *vocab, BYTE *my_word_map, BYTE light_bin, BYTE temp_bin, BYTE word) {
+ 0217                   .dbline 87
+ 0217           ;       // if (my_vocab_index == SIZE(vocab))
+ 0217           ;       // !!!!!
+ 0217           ;       BYTE index = my_word_map[word - 1];             // word is 1 ... N_WORDS
+ 0217 62D000            mov REG[0xd0],>__r0
+ 021A 52F6              mov A,[X-10]
+ 021C 5300              mov [__r1],A
+ 021E 550000            mov [__r0],0
+ 0221 160001            sub [__r1],1
+ 0224 1E0000            sbb [__r0],0
+ 0227 52FA              mov A,[X-6]
+ 0229 0400              add [__r1],A
+ 022B 52F9              mov A,[X-7]
+ 022D 0C00              adc [__r0],A
+ 022F 5100              mov A,[__r0]
+ 0231 60D4              mov REG[0xd4],A
+ 0233 3E00              mvi A,[__r1]
+ 0235 5400              mov [X+0],A
+ 0237                   .dbline 88
+ 0237           ;       if (index == LEN_L) {
+ 0237 3D0010            cmp [X+0],16
+ 023A B0D0              jnz L21
+ 023C                   .dbline 90
+ 023C           ;               // insert
+ 023C           ;               vocab[my_vocab_index].light_bin = light_bin;
+ 023C                   .dbline 90
+ 023C 62D000            mov REG[0xd0],>_my_vocab_index
+ 023F 5100              mov A,[_my_vocab_index]
+ 0241 62D000            mov REG[0xd0],>__r0
+ 0244 5300              mov [__r1],A
+ 0246 5000              mov A,0
+ 0248 08                push A
+ 0249 5100              mov A,[__r1]
+ 024B 08                push A
+ 024C 5000              mov A,0
+ 024E 08                push A
+ 024F 5003              mov A,3
+ 0251 08                push A
+ 0252 7C0000            xcall __mul16
+ 0255 38FC              add SP,-4
+ 0257 5100              mov A,[__rX]
+ 0259 5300              mov [__r1],A
+ 025B 5100              mov A,[__rY]
+ 025D 5300              mov [__r0],A
+ 025F 52FC              mov A,[X-4]
+ 0261 0400              add [__r1],A
+ 0263 52FB              mov A,[X-5]
+ 0265 0C00              adc [__r0],A
+ 0267 5100              mov A,[__r0]
+ 0269 60D5              mov REG[0xd5],A
+ 026B 52F8              mov A,[X-8]
+ 026D 3F00              mvi [__r1],A
+ 026F                   .dbline 92
+ 026F           ;               // vocab[my_vocab_index].temp_bin = temp_bin;
+ 026F           ;               vocab[my_vocab_index].word = word;
+ 026F 62D000            mov REG[0xd0],>_my_vocab_index
+ 0272 5100              mov A,[_my_vocab_index]
+ 0274 62D000            mov REG[0xd0],>__r0
+ 0277 5300              mov [__r1],A
+ 0279 5000              mov A,0
+ 027B 08                push A
+ 027C 5100              mov A,[__r1]
+ 027E 08                push A
+ 027F 5000              mov A,0
+ 0281 08                push A
+ 0282 5003              mov A,3
+ 0284 08                push A
+ 0285 7C0000            xcall __mul16
+ 0288 38FC              add SP,-4
+ 028A 5100              mov A,[__rX]
+ 028C 5300              mov [__r1],A
+ 028E 5100              mov A,[__rY]
+ 0290 5300              mov [__r0],A
+ 0292 52FC              mov A,[X-4]
+ 0294 0400              add [__r1],A
+ 0296 52FB              mov A,[X-5]
+ 0298 0C00              adc [__r0],A
+ 029A 060001            add [__r1],1
+ 029D 0E0000            adc [__r0],0
+ 02A0 5100              mov A,[__r0]
+ 02A2 60D5              mov REG[0xd5],A
+ 02A4 52F6              mov A,[X-10]
+ 02A6 3F00              mvi [__r1],A
+ 02A8                   .dbline 93
+ 02A8           ;               vocab[my_vocab_index].freq = 1;
+ 02A8 62D000            mov REG[0xd0],>_my_vocab_index
+ 02AB 5100              mov A,[_my_vocab_index]
+ 02AD 62D000            mov REG[0xd0],>__r0
+ 02B0 5300              mov [__r1],A
+ 02B2 5000              mov A,0
+ 02B4 08                push A
+ 02B5 5100              mov A,[__r1]
+ 02B7 08                push A
+ 02B8 5000              mov A,0
+ 02BA 08                push A
+ 02BB 5003              mov A,3
+ 02BD 08                push A
+ 02BE 7C0000            xcall __mul16
+ 02C1 38FC              add SP,-4
+ 02C3 5100              mov A,[__rX]
+ 02C5 5300              mov [__r1],A
+ 02C7 5100              mov A,[__rY]
+ 02C9 5300              mov [__r0],A
+ 02CB 52FC              mov A,[X-4]
+ 02CD 0400              add [__r1],A
+ 02CF 52FB              mov A,[X-5]
+ 02D1 0C00              adc [__r0],A
+ 02D3 060002            add [__r1],2
+ 02D6 0E0000            adc [__r0],0
+ 02D9 5100              mov A,[__r0]
+ 02DB 60D5              mov REG[0xd5],A
+ 02DD 5001              mov A,1
+ 02DF 3F00              mvi [__r1],A
+ 02E1                   .dbline 94
+ 02E1           ;               my_word_map[word - 1] = my_vocab_index;
+ 02E1 52F6              mov A,[X-10]
+ 02E3 5300              mov [__r1],A
+ 02E5 550000            mov [__r0],0
+ 02E8 160001            sub [__r1],1
+ 02EB 1E0000            sbb [__r0],0
+ 02EE 52FA              mov A,[X-6]
+ 02F0 0400              add [__r1],A
+ 02F2 52F9              mov A,[X-7]
+ 02F4 0C00              adc [__r0],A
+ 02F6 5100              mov A,[__r0]
+ 02F8 60D5              mov REG[0xd5],A
+ 02FA 62D000            mov REG[0xd0],>_my_vocab_index
+ 02FD 5100              mov A,[_my_vocab_index]
+ 02FF 62D000            mov REG[0xd0],>__r0
+ 0302 3F00              mvi [__r1],A
+ 0304                   .dbline 95
+ 0304           ;               my_vocab_index++;       // move to the next index
+ 0304 62D000            mov REG[0xd0],>_my_vocab_index
+ 0307 7600              inc [_my_vocab_index]
+ 0309                   .dbline 96
+ 0309           ;       }
+ 0309 8044              xjmp L22
+ 030B           L21:
+ 030B                   .dbline 97
+ 030B           ;       else {
+ 030B                   .dbline 98
+ 030B           ;               vocab[index].freq++;
+ 030B 62D000            mov REG[0xd0],>__r0
+ 030E 5200              mov A,[X+0]
+ 0310 5300              mov [__r1],A
+ 0312 5000              mov A,0
+ 0314 08                push A
+ 0315 5100              mov A,[__r1]
+ 0317 08                push A
+ 0318 5000              mov A,0
+ 031A 08                push A
+ 031B 5003              mov A,3
+ 031D 08                push A
+ 031E 7C0000            xcall __mul16
+ 0321 38FC              add SP,-4
+ 0323 5100              mov A,[__rX]
+ 0325 5300              mov [__r1],A
+ 0327 5100              mov A,[__rY]
+ 0329 5300              mov [__r0],A
+ 032B 52FC              mov A,[X-4]
+ 032D 0400              add [__r1],A
+ 032F 52FB              mov A,[X-5]
+ 0331 0C00              adc [__r0],A
+ 0333 060002            add [__r1],2
+ 0336 0E0000            adc [__r0],0
+ 0339 5100              mov A,[__r0]
+ 033B 60D4              mov REG[0xd4],A
+ 033D 3E00              mvi A,[__r1]
+ 033F 7A00              dec [__r1]
+ 0341 5300              mov [__r2],A
+ 0343 060001            add [__r2],1
+ 0346 5100              mov A,[__r0]
+ 0348 60D5              mov REG[0xd5],A
+ 034A 5100              mov A,[__r2]
+ 034C 3F00              mvi [__r1],A
+ 034E                   .dbline 99
+ 034E           ;       }
+ 034E           L22:
+ 034E                   .dbline -2
+ 034E           L20:
+ 034E 38FF              add SP,-1
+ 0350 20                pop X
+ 0351                   .dbline 0 ; func end
+ 0351 7F                ret
+ 0352                   .dbsym l index 0 c
+ 0352                   .dbsym l word -10 c
+ 0352                   .dbsym l temp_bin -9 c
+ 0352                   .dbsym l light_bin -8 c
+ 0352                   .dbsym l my_word_map -7 pc
+ 0352                   .dbsym l vocab -5 pS[Embedding]
+ 0352                   .dbend
+ 0352                   .dbfunc e reorder _reorder fV
+ 0352           ;           temp -> X+3
+ 0352           ;              i -> X+2
+ 0352           ;            key -> X+1
+ 0352           ;              j -> X+0
+ 0352           _reorder::
+ 0352                   .dbline -1
+ 0352 10                push X
+ 0353 4F                mov X,SP
+ 0354 3806              add SP,6
+ 0356                   .dbline 101
+ 0356           ; }
+ 0356           ; void reorder(void ) {
+ 0356                   .dbline 105
+ 0356           ;       CHAR i, j;
+ 0356           ;       BYTE key;
+ 0356           ;       embedding temp;
+ 0356           ;       j = 0;
+ 0356 560000            mov [X+0],0
+ 0359                   .dbline 106
+ 0359           ;     for ( i = 1; i < my_vocab_index; i++) {
+ 0359 560201            mov [X+2],1
+ 035C 8179              xjmp L27
+ 035E           L24:
+ 035E                   .dbline 106
+ 035E                   .dbline 107
+ 035E           ;               temp = my_vocab[i];
+ 035E 62D000            mov REG[0xd0],>__r0
+ 0361 5202              mov A,[X+2]
+ 0363 5300              mov [__r1],A
+ 0365 550000            mov [__r0],0
+ 0368 470080            tst [__r1],-128
+ 036B A004              jz X8
+ 036D 5500FF            mov [__r0],-1
+ 0370           X8:
+ 0370 62D000            mov REG[0xd0],>__r0
+ 0373 5100              mov A,[__r0]
+ 0375 08                push A
+ 0376 5100              mov A,[__r1]
+ 0378 08                push A
+ 0379 5000              mov A,0
+ 037B 08                push A
+ 037C 5003              mov A,3
+ 037E 08                push A
+ 037F 7C0000            xcall __mul16
+ 0382 38FC              add SP,-4
+ 0384 5100              mov A,[__rX]
+ 0386 5300              mov [__r1],A
+ 0388 5100              mov A,[__rY]
+ 038A 5300              mov [__r0],A
+ 038C 060000            add [__r1],<_my_vocab
+ 038F 0E0000            adc [__r0],>_my_vocab
+ 0392 5A00              mov [__r3],X
+ 0394 060003            add [__r3],3
+ 0397 5100              mov A,[__r0]
+ 0399 60D4              mov REG[0xd4],A
+ 039B 62D507            mov REG[0xd5],7
+ 039E 3E00              mvi A,[__r1]
+ 03A0 3F00              mvi [__r3],A
+ 03A2 3E00              mvi A,[__r1]
+ 03A4 3F00              mvi [__r3],A
+ 03A6 3E00              mvi A,[__r1]
+ 03A8 3F00              mvi [__r3],A
+ 03AA                   .dbline 108
+ 03AA           ;               key = my_vocab[i].freq;
+ 03AA 5202              mov A,[X+2]
+ 03AC 5300              mov [__r1],A
+ 03AE 550000            mov [__r0],0
+ 03B1 470080            tst [__r1],-128
+ 03B4 A004              jz X9
+ 03B6 5500FF            mov [__r0],-1
+ 03B9           X9:
+ 03B9 62D000            mov REG[0xd0],>__r0
+ 03BC 5100              mov A,[__r0]
+ 03BE 08                push A
+ 03BF 5100              mov A,[__r1]
+ 03C1 08                push A
+ 03C2 5000              mov A,0
+ 03C4 08                push A
+ 03C5 5003              mov A,3
+ 03C7 08                push A
+ 03C8 7C0000            xcall __mul16
+ 03CB 38FC              add SP,-4
+ 03CD 5100              mov A,[__rX]
+ 03CF 5300              mov [__r1],A
+ 03D1 5100              mov A,[__rY]
+ 03D3 5300              mov [__r0],A
+ 03D5 060002            add [__r1],<_my_vocab+2
+ 03D8 0E0002            adc [__r0],>_my_vocab+2
+ 03DB 5100              mov A,[__r0]
+ 03DD 60D4              mov REG[0xd4],A
+ 03DF 3E00              mvi A,[__r1]
+ 03E1 5401              mov [X+1],A
+ 03E3                   .dbline 110
+ 03E3           ;         //printf("%d\t%d\n", i, key);
+ 03E3           ;         j = i - 1;
+ 03E3 5202              mov A,[X+2]
+ 03E5 1101              sub A,1
+ 03E7 5400              mov [X+0],A
+ 03E9 8053              xjmp L30
+ 03EB           L29:
+ 03EB                   .dbline 113
+ 03EB           ;               
+ 03EB           ; 
+ 03EB           ;         while (j >= 0 && my_vocab[j].freq > key) {
+ 03EB                   .dbline 114
+ 03EB           ;             my_vocab[j + 1] = my_vocab[j];
+ 03EB 62D000            mov REG[0xd0],>__r0
+ 03EE 5200              mov A,[X+0]
+ 03F0 5300              mov [__r1],A
+ 03F2 550000            mov [__r0],0
+ 03F5 470080            tst [__r1],-128
+ 03F8 A004              jz X10
+ 03FA 5500FF            mov [__r0],-1
+ 03FD           X10:
+ 03FD 62D000            mov REG[0xd0],>__r0
+ 0400 5100              mov A,[__r0]
+ 0402 08                push A
+ 0403 5100              mov A,[__r1]
+ 0405 08                push A
+ 0406 5000              mov A,0
+ 0408 08                push A
+ 0409 5003              mov A,3
+ 040B 08                push A
+ 040C 7C0000            xcall __mul16
+ 040F 38FC              add SP,-4
+ 0411 5100              mov A,[__rX]
+ 0413 5300              mov [__r1],A
+ 0415 5100              mov A,[__rY]
+ 0417 5300              mov [__r0],A
+ 0419 5100              mov A,[__r1]
+ 041B 0100              add A,<_my_vocab
+ 041D 5300              mov [__r3],A
+ 041F 5100              mov A,[__r0]
+ 0421 0900              adc A,>_my_vocab
+ 0423 060003            add [__r1],<_my_vocab+3
+ 0426 0E0003            adc [__r0],>_my_vocab+3
+ 0429 60D4              mov REG[0xd4],A
+ 042B 5100              mov A,[__r0]
+ 042D 60D5              mov REG[0xd5],A
+ 042F 3E00              mvi A,[__r3]
+ 0431 3F00              mvi [__r1],A
+ 0433 3E00              mvi A,[__r3]
+ 0435 3F00              mvi [__r1],A
+ 0437 3E00              mvi A,[__r3]
+ 0439 3F00              mvi [__r1],A
+ 043B                   .dbline 115
+ 043B           ;             j--;
+ 043B 7B00              dec [X+0]
+ 043D                   .dbline 116
+ 043D           ;         }
+ 043D           L30:
+ 043D                   .dbline 113
+ 043D 480080            tst [X+0],-128
+ 0440 B043              jnz L34
+ 0442 62D000            mov REG[0xd0],>__r0
+ 0445 5200              mov A,[X+0]
+ 0447 5300              mov [__r1],A
+ 0449 550000            mov [__r0],0
+ 044C 470080            tst [__r1],-128
+ 044F A004              jz X11
+ 0451 5500FF            mov [__r0],-1
+ 0454           X11:
+ 0454 62D000            mov REG[0xd0],>__r0
+ 0457 5100              mov A,[__r0]
+ 0459 08                push A
+ 045A 5100              mov A,[__r1]
+ 045C 08                push A
+ 045D 5000              mov A,0
+ 045F 08                push A
+ 0460 5003              mov A,3
+ 0462 08                push A
+ 0463 7C0000            xcall __mul16
+ 0466 38FC              add SP,-4
+ 0468 5100              mov A,[__rX]
+ 046A 5300              mov [__r1],A
+ 046C 5100              mov A,[__rY]
+ 046E 5300              mov [__r0],A
+ 0470 060002            add [__r1],<_my_vocab+2
+ 0473 0E0002            adc [__r0],>_my_vocab+2
+ 0476 5100              mov A,[__r0]
+ 0478 60D4              mov REG[0xd4],A
+ 047A 3E00              mvi A,[__r1]
+ 047C 5300              mov [__r0],A
+ 047E 5201              mov A,[X+1]
+ 0480 3A00              cmp A,[__r0]
+ 0482 CF68              jc L29
+ 0484           X12:
+ 0484           L34:
+ 0484                   .dbline 117
+ 0484           ;         my_vocab[j + 1] = temp;
+ 0484 62D000            mov REG[0xd0],>__r0
+ 0487 550007            mov [__r0],7
+ 048A 5A00              mov [__r1],X
+ 048C 060003            add [__r1],3
+ 048F 5200              mov A,[X+0]
+ 0491 5300              mov [__r3],A
+ 0493 550000            mov [__r2],0
+ 0496 470080            tst [__r3],-128
+ 0499 A004              jz X13
+ 049B 5500FF            mov [__r2],-1
+ 049E           X13:
+ 049E 62D000            mov REG[0xd0],>__r0
+ 04A1 5100              mov A,[__r2]
+ 04A3 08                push A
+ 04A4 5100              mov A,[__r3]
+ 04A6 08                push A
+ 04A7 5000              mov A,0
+ 04A9 08                push A
+ 04AA 5003              mov A,3
+ 04AC 08                push A
+ 04AD 7C0000            xcall __mul16
+ 04B0 38FC              add SP,-4
+ 04B2 5100              mov A,[__rX]
+ 04B4 5300              mov [__r3],A
+ 04B6 5100              mov A,[__rY]
+ 04B8 5300              mov [__r2],A
+ 04BA 060003            add [__r3],<_my_vocab+3
+ 04BD 0E0003            adc [__r2],>_my_vocab+3
+ 04C0 5100              mov A,[__r0]
+ 04C2 60D4              mov REG[0xd4],A
+ 04C4 5100              mov A,[__r2]
+ 04C6 60D5              mov REG[0xd5],A
+ 04C8 3E00              mvi A,[__r1]
+ 04CA 3F00              mvi [__r3],A
+ 04CC 3E00              mvi A,[__r1]
+ 04CE 3F00              mvi [__r3],A
+ 04D0 3E00              mvi A,[__r1]
+ 04D2 3F00              mvi [__r3],A
+ 04D4                   .dbline 118
+ 04D4           ;     }
+ 04D4           L25:
+ 04D4                   .dbline 106
+ 04D4 7702              inc [X+2]
+ 04D6           L27:
+ 04D6                   .dbline 106
+ 04D6 62D000            mov REG[0xd0],>_my_vocab_index
+ 04D9 5100              mov A,[_my_vocab_index]
+ 04DB 62D000            mov REG[0xd0],>__r0
+ 04DE 5300              mov [__r1],A
+ 04E0 550000            mov [__r0],0
+ 04E3 5202              mov A,[X+2]
+ 04E5 5300              mov [__r3],A
+ 04E7 550000            mov [__r2],0
+ 04EA 470080            tst [__r3],-128
+ 04ED A004              jz X14
+ 04EF 5500FF            mov [__r2],-1
+ 04F2           X14:
+ 04F2 62D000            mov REG[0xd0],>__r0
+ 04F5 5100              mov A,[__r3]
+ 04F7 1200              sub A,[__r1]
+ 04F9 5100              mov A,[__r0]
+ 04FB 3180              xor A,-128
+ 04FD 5300              mov [__rX],A
+ 04FF 5100              mov A,[__r2]
+ 0501 3180              xor A,-128
+ 0503 1A00              sbb A,[__rX]
+ 0505 CE58              jc L24
+ 0507           X15:
+ 0507                   .dbline -2
+ 0507           L23:
+ 0507 38FA              add SP,-6
+ 0509 20                pop X
+ 050A                   .dbline 0 ; func end
+ 050A 7F                ret
+ 050B                   .dbsym l temp 3 S[Embedding]
+ 050B                   .dbsym l i 2 C
+ 050B                   .dbsym l key 1 c
+ 050B                   .dbsym l j 0 C
+ 050B                   .dbend
+ 050B                   .dbfunc e Timer_ISR _Timer_ISR fV
+ 050B           _Timer_ISR::
+ 050B                   .dbline -1
+ 050B 71C0              or F,-64
+ 050D 08                push A
+ 050E 5DD0              mov A,REG[0xd0]
+ 0510 08                push A
+ 0511 5DD3              mov A,REG[0xd3]
+ 0513 08                push A
+ 0514 5DD4              mov A,REG[0xd4]
+ 0516 08                push A
+ 0517 5DD5              mov A,REG[0xd5]
+ 0519 08                push A
+ 051A 62D000            mov REG[0xd0],>__r0
+ 051D 5100              mov A,[__r0]
+ 051F 08                push A
+ 0520 5100              mov A,[__r1]
+ 0522 08                push A
+ 0523 5100              mov A,[__r2]
+ 0525 08                push A
+ 0526 5100              mov A,[__r3]
+ 0528 08                push A
+ 0529 5100              mov A,[__r4]
+ 052B 08                push A
+ 052C 5100              mov A,[__r5]
+ 052E 08                push A
+ 052F 5100              mov A,[__r6]
+ 0531 08                push A
+ 0532 5100              mov A,[__r7]
+ 0534 08                push A
+ 0535 5100              mov A,[__r8]
+ 0537 08                push A
+ 0538 5100              mov A,[__r9]
+ 053A 08                push A
+ 053B 5100              mov A,[__r10]
+ 053D 08                push A
+ 053E 5100              mov A,[__r11]
+ 0540 08                push A
+ 0541 5100              mov A,[__rX]
+ 0543 08                push A
+ 0544 5100              mov A,[__rY]
+ 0546 08                push A
+ 0547 5100              mov A,[__rZ]
+ 0549 08                push A
+ 054A                   .dbline 124
+ 054A           ; }
+ 054A           ; #pragma interrupt_handler Timer_ISR
+ 054A           ; /* Timer ISR in C where timer
+ 054A           ; interrupts are processed */
+ 054A           ; void Timer_ISR(void)
+ 054A           ; {
+ 054A                   .dbline 129
+ 054A           ; 
+ 054A           ;       
+ 054A           ;       
+ 054A           ;       
+ 054A           ;       reorder();
+ 054A 9E06              xcall _reorder
+ 054C                   .dbline -2
+ 054C           L36:
+ 054C 62D000            mov REG[0xD0],>__r0
+ 054F 18                pop A
+ 0550 5300              mov [__rZ],A
+ 0552 18                pop A
+ 0553 5300              mov [__rY],A
+ 0555 18                pop A
+ 0556 5300              mov [__rX],A
+ 0558 18                pop A
+ 0559 5300              mov [__r11],A
+ 055B 18                pop A
+ 055C 5300              mov [__r10],A
+ 055E 18                pop A
+ 055F 5300              mov [__r9],A
+ 0561 18                pop A
+ 0562 5300              mov [__r8],A
+ 0564 18                pop A
+ 0565 5300              mov [__r7],A
+ 0567 18                pop A
+ 0568 5300              mov [__r6],A
+ 056A 18                pop A
+ 056B 5300              mov [__r5],A
+ 056D 18                pop A
+ 056E 5300              mov [__r4],A
+ 0570 18                pop A
+ 0571 5300              mov [__r3],A
+ 0573 18                pop A
+ 0574 5300              mov [__r2],A
+ 0576 18                pop A
+ 0577 5300              mov [__r1],A
+ 0579 18                pop A
+ 057A 5300              mov [__r0],A
+ 057C 18                pop A
+ 057D 60D5              mov REG[213],A
+ 057F 18                pop A
+ 0580 60D4              mov REG[212],A
+ 0582 18                pop A
+ 0583 60D3              mov REG[211],A
+ 0585 18                pop A
+ 0586 60D0              mov REG[208],A
+ 0588 18                pop A
+ 0589                   .dbline 0 ; func end
+ 0589 7E                reti
+ 058A                   .dbend
+ 058A                   .dbfunc e main _main fV
+ 058A           ;        counter -> X+18
+ 058A           ;    my_word_map -> X+2
+ 058A           ;      light_bin -> X+1
+ 058A           ;           word -> X+0
+ 058A           _main::
+ 058A                   .dbline -1
+ 058A 10                push X
+ 058B 4F                mov X,SP
+ 058C 3813              add SP,19
+ 058E                   .dbline 137
+ 058E           ;       
+ 058E           ;       
+ 058E           ; 
+ 058E           ; }
+ 058E           ; 
+ 058E           ; 
+ 058E           ; 
+ 058E           ; void main(void) {
+ 058E                   .dbline 147
+ 058E           ; 
+ 058E           ; /*#############################################################################*/
+ 058E           ;                  // table to store the current vocab for L seconds. N_WORDS = 16
+ 058E           ;       //embedding sensed_vocab[16];       // table to store the sensed vocab for M seconds
+ 058E           ;       BYTE my_word_map[N_WORDS];
+ 058E           ;       BYTE light_bin;
+ 058E           ;       BYTE counter;   // temp variable for counter
+ 058E           ;       // BYTE temp_bin;
+ 058E           ;       BYTE word;
+ 058E           ;     init_my_word_map(my_word_map);      // initialize the word-> index map to get index of word in my_vocab
+ 058E 62D000            mov REG[0xd0],>__r0
+ 0591 5A00              mov [__r1],X
+ 0593 060002            add [__r1],2
+ 0596 5007              mov A,7
+ 0598 08                push A
+ 0599 5100              mov A,[__r1]
+ 059B 08                push A
+ 059C 9AA3              xcall _init_my_word_map
+ 059E 38FE              add SP,-2
+ 05A0                   .dbline 150
+ 05A0           ; /*#############################################################################*/
+ 05A0           ; 
+ 05A0           ;     PGA_Start(PGA_HIGHPOWER);                         // Start PGA with Highpower
+ 05A0 10                push X
+ 05A1 5003              mov A,3
+ 05A3 7C0000            xcall _PGA_Start
+ 05A6                   .dbline 151
+ 05A6           ;       LCD_Start();                                            // Start LCD
+ 05A6 7C0000            xcall _LCD_Start
+ 05A9 20                pop X
+ 05AA                   .dbline 154
+ 05AA           ;       //LCD_Position(0,0);                            // Set LCD position to row 0 column 0
+ 05AA           ;       //LCD_PrCString("Light = ");            // Print string "MEASURED VOLTAGE" on LCD
+ 05AA           ;       M8C_EnableGInt;                                         // Enable Global Interrupts
+ 05AA 7101                      or  F, 01h
+ 05AC           
+ 05AC                   .dbline 155
+ 05AC           ;       ADC_Start(ADC_HIGHPOWER);                       // Start ADC by powering SC block at High Power
+ 05AC 10                push X
+ 05AD 5003              mov A,3
+ 05AF 7C0000            xcall _ADC_Start
+ 05B2                   .dbline 156
+ 05B2           ;       ADC_GetSamples(0);                                      // Have ADC run continuously
+ 05B2 5000              mov A,0
+ 05B4 7C0000            xcall _ADC_GetSamples
+ 05B7 20                pop X
+ 05B8                   .dbline 157
+ 05B8           ;       fScaleFactor = (float)5/(float)4096;// Calculate Scale Factor.
+ 05B8 62D000            mov REG[0xd0],>_fScaleFactor
+ 05BB 55003A            mov [_fScaleFactor],58
+ 05BE 5501A0            mov [_fScaleFactor+1],-96
+ 05C1 550200            mov [_fScaleFactor+2],0
+ 05C4 550300            mov [_fScaleFactor+3],0
+ 05C7                   .dbline 159
+ 05C7           ;       //for(counter = 0; counter < 15; counter++)                                                             // Infinite loop
+ 05C7           ;       Timer32_1_Start();
+ 05C7 10                push X
+ 05C8 7C0000            xcall _Timer32_1_Start
+ 05CB                   .dbline 163
+ 05CB           ;       /* Enable Timer Interrupt. This
+ 05CB           ;       library function writes into
+ 05CB           ;       INT_MSK0 register */
+ 05CB           ;       Timer32_1_EnableInt();
+ 05CB 7C0000            xcall _Timer32_1_EnableInt
+ 05CE 20                pop X
+ 05CF 8291              xjmp L39
+ 05D1           L41:
+ 05D1                   .dbline 167
+ 05D1           ;       //counter = 1;
+ 05D1           ;       while (1)
+ 05D1           ;       {
+ 05D1           ;               while(ADC_fIsDataAvailable() == 0); // Loop until value ready
+ 05D1           L42:
+ 05D1                   .dbline 167
+ 05D1 10                push X
+ 05D2 7C0000            xcall _ADC_fIsDataAvailable
+ 05D5 20                pop X
+ 05D6 62D000            mov REG[0xd0],>__r0
+ 05D9 3900              cmp A,0
+ 05DB AFF5              jz L41
+ 05DD                   .dbline 168
+ 05DD           ;               iData=ADC_iGetData();                           // Read ADC result
+ 05DD 10                push X
+ 05DE 7C0000            xcall _ADC_iGetData
+ 05E1 62D000            mov REG[0xd0],>__r0
+ 05E4 5A00              mov [__r0],X
+ 05E6 20                pop X
+ 05E7 08                push A
+ 05E8 5100              mov A,[__r0]
+ 05EA 62D000            mov REG[0xd0],>_iData
+ 05ED 5300              mov [_iData],A
+ 05EF 18                pop A
+ 05F0 5301              mov [_iData+1],A
+ 05F2                   .dbline 169
+ 05F2           ;               ADC_ClearFlag();                                        // Clear ADC flag
+ 05F2 10                push X
+ 05F3 7C0000            xcall _ADC_ClearFlag
+ 05F6 20                pop X
+ 05F7                   .dbline 170
+ 05F7           ;               fVolts = fScaleFactor*(float)iData;     // Calculate voltage using ADC result and scale factor
+ 05F7 62D000            mov REG[0xd0],>_iData
+ 05FA 5101              mov A,[_iData+1]
+ 05FC 62D000            mov REG[0xd0],>__r0
+ 05FF 5300              mov [__r3],A
+ 0601 62D000            mov REG[0xd0],>_iData
+ 0604 5100              mov A,[_iData]
+ 0606 62D000            mov REG[0xd0],>__r0
+ 0609 5300              mov [__r2],A
+ 060B 470080            tst [__r2],-128
+ 060E A009              jz X17
+ 0610 5500FF            mov [__r1],-1
+ 0613 5500FF            mov [__r0],-1
+ 0616 800A              jmp X18
+ 0618           X17:
+ 0618 62D000            mov REG[0xd0],>__r0
+ 061B 550000            mov [__r1],0
+ 061E 550000            mov [__r0],0
+ 0621           X18:
+ 0621 62D000            mov REG[0xd0],>__r0
+ 0624 5100              mov A,[__r0]
+ 0626 08                push A
+ 0627 5100              mov A,[__r1]
+ 0629 08                push A
+ 062A 5100              mov A,[__r2]
+ 062C 08                push A
+ 062D 5100              mov A,[__r3]
+ 062F 08                push A
+ 0630 7C0000            xcall __long2fp
+ 0633 18                pop A
+ 0634 5300              mov [__r3],A
+ 0636 18                pop A
+ 0637 5300              mov [__r2],A
+ 0639 18                pop A
+ 063A 5300              mov [__r1],A
+ 063C 18                pop A
+ 063D 08                push A
+ 063E 5100              mov A,[__r1]
+ 0640 08                push A
+ 0641 5100              mov A,[__r2]
+ 0643 08                push A
+ 0644 5100              mov A,[__r3]
+ 0646 08                push A
+ 0647 62D000            mov REG[0xd0],>_fScaleFactor
+ 064A 5100              mov A,[_fScaleFactor]
+ 064C 08                push A
+ 064D 5101              mov A,[_fScaleFactor+1]
+ 064F 08                push A
+ 0650 5102              mov A,[_fScaleFactor+2]
+ 0652 08                push A
+ 0653 5103              mov A,[_fScaleFactor+3]
+ 0655 08                push A
+ 0656 62D000            mov REG[0xd0],>__r0
+ 0659 7C0000            xcall __fpmul
+ 065C 18                pop A
+ 065D 62D000            mov REG[0xd0],>_fVolts
+ 0660 5303              mov [_fVolts+3],A
+ 0662 18                pop A
+ 0663 5302              mov [_fVolts+2],A
+ 0665 18                pop A
+ 0666 5301              mov [_fVolts+1],A
+ 0668 18                pop A
+ 0669 5300              mov [_fVolts],A
+ 066B 38FC              add SP,-4
+ 066D                   .dbline 172
+ 066D           ;               //pResult = ftoa(fVolts,&iStatus );     // Convernt Float value of voltage into ASCII string
+ 066D           ;               light_reading = (int)(fVolts * 800) / 3.7;
+ 066D 5100              mov A,[_fVolts]
+ 066F 08                push A
+ 0670 5101              mov A,[_fVolts+1]
+ 0672 08                push A
+ 0673 5102              mov A,[_fVolts+2]
+ 0675 08                push A
+ 0676 5103              mov A,[_fVolts+3]
+ 0678 08                push A
+ 0679 5044              mov A,68
+ 067B 08                push A
+ 067C 5048              mov A,72
+ 067E 08                push A
+ 067F 5000              mov A,0
+ 0681 08                push A
+ 0682 08                push A
+ 0683 62D000            mov REG[0xd0],>__r0
+ 0686 7C0000            xcall __fpmul
+ 0689 18                pop A
+ 068A 5300              mov [__r3],A
+ 068C 18                pop A
+ 068D 5300              mov [__r2],A
+ 068F 18                pop A
+ 0690 5300              mov [__r1],A
+ 0692 18                pop A
+ 0693 38FC              add SP,-4
+ 0695 08                push A
+ 0696 5100              mov A,[__r1]
+ 0698 08                push A
+ 0699 5100              mov A,[__r2]
+ 069B 08                push A
+ 069C 5100              mov A,[__r3]
+ 069E 08                push A
+ 069F 7C0000            xcall __fp2long
+ 06A2 18                pop A
+ 06A3 5300              mov [__r1],A
+ 06A5 18                pop A
+ 06A6 5300              mov [__r0],A
+ 06A8 38FE              add SP,-2
+ 06AA 5100              mov A,[__r1]
+ 06AC 5300              mov [__r3],A
+ 06AE 5100              mov A,[__r0]
+ 06B0 5300              mov [__r2],A
+ 06B2 470080            tst [__r2],-128
+ 06B5 A009              jz X19
+ 06B7 5500FF            mov [__r1],-1
+ 06BA 5500FF            mov [__r0],-1
+ 06BD 800A              jmp X20
+ 06BF           X19:
+ 06BF 62D000            mov REG[0xd0],>__r0
+ 06C2 550000            mov [__r1],0
+ 06C5 550000            mov [__r0],0
+ 06C8           X20:
+ 06C8 62D000            mov REG[0xd0],>__r0
+ 06CB 5100              mov A,[__r0]
+ 06CD 08                push A
+ 06CE 5100              mov A,[__r1]
+ 06D0 08                push A
+ 06D1 5100              mov A,[__r2]
+ 06D3 08                push A
+ 06D4 5100              mov A,[__r3]
+ 06D6 08                push A
+ 06D7 7C0000            xcall __long2fp
+ 06DA 18                pop A
+ 06DB 5300              mov [__r3],A
+ 06DD 18                pop A
+ 06DE 5300              mov [__r2],A
+ 06E0 18                pop A
+ 06E1 5300              mov [__r1],A
+ 06E3 18                pop A
+ 06E4 5300              mov [__r0],A
+ 06E6 5040              mov A,64
+ 06E8 08                push A
+ 06E9 506C              mov A,108
+ 06EB 08                push A
+ 06EC 50CC              mov A,-52
+ 06EE 08                push A
+ 06EF 50CD              mov A,-51
+ 06F1 08                push A
+ 06F2 5100              mov A,[__r0]
+ 06F4 08                push A
+ 06F5 5100              mov A,[__r1]
+ 06F7 08                push A
+ 06F8 5100              mov A,[__r2]
+ 06FA 08                push A
+ 06FB 5100              mov A,[__r3]
+ 06FD 08                push A
+ 06FE 7C0000            xcall __fpdiv
+ 0701 18                pop A
+ 0702 5300              mov [__r3],A
+ 0704 18                pop A
+ 0705 5300              mov [__r2],A
+ 0707 18                pop A
+ 0708 5300              mov [__r1],A
+ 070A 18                pop A
+ 070B 38FC              add SP,-4
+ 070D 08                push A
+ 070E 5100              mov A,[__r1]
+ 0710 08                push A
+ 0711 5100              mov A,[__r2]
+ 0713 08                push A
+ 0714 5100              mov A,[__r3]
+ 0716 08                push A
+ 0717 7C0000            xcall __fp2long
+ 071A 18                pop A
+ 071B 62D000            mov REG[0xd0],>_light_reading
+ 071E 5301              mov [_light_reading+1],A
+ 0720 18                pop A
+ 0721 5300              mov [_light_reading],A
+ 0723 38FE              add SP,-2
+ 0725                   .dbline 173
+ 0725           ;               csprintf(buffer, "%d", light_reading);
+ 0725 5100              mov A,[_light_reading]
+ 0727 08                push A
+ 0728 5101              mov A,[_light_reading+1]
+ 072A 08                push A
+ 072B 5000              mov A,>L44
+ 072D 08                push A
+ 072E 5000              mov A,<L44
+ 0730 08                push A
+ 0731 5000              mov A,>_buffer
+ 0733 08                push A
+ 0734 5000              mov A,<_buffer
+ 0736 08                push A
+ 0737 7C0000            xcall _csprintf
+ 073A 38FA              add SP,-6
+ 073C                   .dbline 175
+ 073C           ;               
+ 073C           ;               LCD_Position(0,0);                                      // Set LCD position to row 1 column 0
+ 073C 10                push X
+ 073D 5000              mov A,0
+ 073F 5700              mov X,0
+ 0741 7C0000            xcall _LCD_Position
+ 0744                   .dbline 177
+ 0744           ;               //LCD_PrHexInt(light_reading);                          // Print voltage value on LCD
+ 0744           ;               LCD_PrString(buffer);
+ 0744 5000              mov A,>_buffer
+ 0746 08                push A
+ 0747 5000              mov A,<_buffer
+ 0749 5C                mov X,A
+ 074A 18                pop A
+ 074B 7C0000            xcall _LCD_PrString
+ 074E 20                pop X
+ 074F                   .dbline 180
+ 074F           ;               //LCD_PrCString(" Lux");                                // Print string " V" on LCD after voltage value
+ 074F           ;               
+ 074F           ;               i = 0;
+ 074F 62D000            mov REG[0xd0],>_i
+ 0752 550000            mov [_i],0
+ 0755                   .dbline 182
+ 0755           ;               //light_bin =  light_reading/100;
+ 0755           ;               light_bin = get_light_bin(light_reading);
+ 0755 62D000            mov REG[0xd0],>_light_reading
+ 0758 5100              mov A,[_light_reading]
+ 075A 08                push A
+ 075B 5101              mov A,[_light_reading+1]
+ 075D 08                push A
+ 075E 990F              xcall _get_light_bin
+ 0760 38FE              add SP,-2
+ 0762 62D000            mov REG[0xd0],>__r0
+ 0765 5401              mov [X+1],A
+ 0767                   .dbline 183
+ 0767           ;         word = get_word(light_bin, 1);
+ 0767 5001              mov A,1
+ 0769 08                push A
+ 076A 5201              mov A,[X+1]
+ 076C 08                push A
+ 076D 9A9B              xcall _get_word
+ 076F 62D000            mov REG[0xd0],>__r0
+ 0772 5400              mov [X+0],A
+ 0774                   .dbline 184
+ 0774           ;         insert_vocab(my_vocab, my_word_map, light_bin, 1, word);      // temp_bin hard coded to 1
+ 0774 5200              mov A,[X+0]
+ 0776 08                push A
+ 0777 5001              mov A,1
+ 0779 08                push A
+ 077A 5201              mov A,[X+1]
+ 077C 08                push A
+ 077D 5A00              mov [__r1],X
+ 077F 060002            add [__r1],2
+ 0782 5007              mov A,7
+ 0784 08                push A
+ 0785 5100              mov A,[__r1]
+ 0787 08                push A
+ 0788 5000              mov A,>_my_vocab
+ 078A 08                push A
+ 078B 5000              mov A,<_my_vocab
+ 078D 08                push A
+ 078E 9A83              xcall _insert_vocab
+ 0790 38F7              add SP,-9
+ 0792                   .dbline 186
+ 0792           ;               
+ 0792           ;               LCD_Position(1,0);
+ 0792 10                push X
+ 0793 5700              mov X,0
+ 0795 5001              mov A,1
+ 0797 7C0000            xcall _LCD_Position
+ 079A 20                pop X
+ 079B                   .dbline 187
+ 079B           ;               LCD_PrHexInt(word);                                     // dispay light_bin number              
+ 079B 62D000            mov REG[0xd0],>__r0
+ 079E 5200              mov A,[X+0]
+ 07A0 5300              mov [__r1],A
+ 07A2 10                push X
+ 07A3 5000              mov A,0
+ 07A5 08                push A
+ 07A6 5100              mov A,[__r1]
+ 07A8 20                pop X
+ 07A9 7C0000            xcall _LCD_PrHexInt
+ 07AC                   .dbline 188
+ 07AC           ;               LCD_Position(1,5);
+ 07AC 5705              mov X,5
+ 07AE 5001              mov A,1
+ 07B0 7C0000            xcall _LCD_Position
+ 07B3 20                pop X
+ 07B4                   .dbline 189
+ 07B4           ;               LCD_PrHexInt(my_vocab[my_word_map[word - 1]].freq);
+ 07B4 62D000            mov REG[0xd0],>__r0
+ 07B7 550007            mov [__r0],7
+ 07BA 5A00              mov [__r1],X
+ 07BC 060001            add [__r1],1
+ 07BF 5200              mov A,[X+0]
+ 07C1 0200              add A,[__r1]
+ 07C3 5300              mov [__r1],A
+ 07C5 5000              mov A,0
+ 07C7 0A00              adc A,[__r0]
+ 07C9 60D4              mov REG[0xd4],A
+ 07CB 3E00              mvi A,[__r1]
+ 07CD 5300              mov [__r1],A
+ 07CF 5000              mov A,0
+ 07D1 08                push A
+ 07D2 5100              mov A,[__r1]
+ 07D4 08                push A
+ 07D5 5000              mov A,0
+ 07D7 08                push A
+ 07D8 5003              mov A,3
+ 07DA 08                push A
+ 07DB 7C0000            xcall __mul16
+ 07DE 38FC              add SP,-4
+ 07E0 5100              mov A,[__rX]
+ 07E2 5300              mov [__r1],A
+ 07E4 5100              mov A,[__rY]
+ 07E6 5300              mov [__r0],A
+ 07E8 060002            add [__r1],<_my_vocab+2
+ 07EB 0E0002            adc [__r0],>_my_vocab+2
+ 07EE 5100              mov A,[__r0]
+ 07F0 60D4              mov REG[0xd4],A
+ 07F2 3E00              mvi A,[__r1]
+ 07F4 5300              mov [__r1],A
+ 07F6 10                push X
+ 07F7 5000              mov A,0
+ 07F9 08                push A
+ 07FA 5100              mov A,[__r1]
+ 07FC 20                pop X
+ 07FD 7C0000            xcall _LCD_PrHexInt
+ 0800 20                pop X
+ 0801 8026              xjmp L48
+ 0803           L47:
+ 0803                   .dbline 191
+ 0803           ;               while (i < word)                                                // broadcast light_bin number 
+ 0803           ;               { 
+ 0803                   .dbline 192
+ 0803           ;                       PWM8_Speaker_Start();                           // Loud bit
+ 0803 10                push X
+ 0804 7C0000            xcall _PWM8_Speaker_Start
+ 0807 20                pop X
+ 0808                   .dbline 193
+ 0808           ;                       WaitMs(z);
+ 0808 5000              mov A,0
+ 080A 08                push A
+ 080B 5096              mov A,-106
+ 080D 08                push A
+ 080E 7C0000            xcall _WaitMs
+ 0811 38FE              add SP,-2
+ 0813                   .dbline 194
+ 0813           ;                       PWM8_Speaker_Stop();                            // Silent bit (loud parser) 
+ 0813 10                push X
+ 0814 7C0000            xcall _PWM8_Speaker_Stop
+ 0817 20                pop X
+ 0818                   .dbline 195
+ 0818           ;                       WaitMs(y);
+ 0818 5000              mov A,0
+ 081A 08                push A
+ 081B 5096              mov A,-106
+ 081D 08                push A
+ 081E 7C0000            xcall _WaitMs
+ 0821 38FE              add SP,-2
+ 0823                   .dbline 196
+ 0823           ;                       i++;
+ 0823 62D000            mov REG[0xd0],>_i
+ 0826 7600              inc [_i]
+ 0828                   .dbline 197
+ 0828           ;               }
+ 0828           L48:
+ 0828                   .dbline 190
+ 0828 62D000            mov REG[0xd0],>_i
+ 082B 5100              mov A,[_i]
+ 082D 3B00              cmp A,[X+0]
+ 082F CFD3              jc L47
+ 0831           X21:
+ 0831                   .dbline 198
+ 0831           ;               i = 0;
+ 0831 62D000            mov REG[0xd0],>_i
+ 0834 550000            mov [_i],0
+ 0837 8011              xjmp L51
+ 0839           L50:
+ 0839                   .dbline 200
+ 0839           ;               while (i < ( N_LIGHT_BINS - light_bin) )        // broadcast leftout light_bin Empty field silent bits
+ 0839           ;               {
+ 0839                   .dbline 201
+ 0839           ;                       WaitMs(z+y);
+ 0839 5001              mov A,1
+ 083B 08                push A
+ 083C 502C              mov A,44
+ 083E 08                push A
+ 083F 7C0000            xcall _WaitMs
+ 0842 38FE              add SP,-2
+ 0844                   .dbline 202
+ 0844           ;                       i++;
+ 0844 62D000            mov REG[0xd0],>_i
+ 0847 7600              inc [_i]
+ 0849                   .dbline 203
+ 0849           ;               } 
+ 0849           L51:
+ 0849                   .dbline 199
+ 0849 62D000            mov REG[0xd0],>_N_LIGHT_BINS
+ 084C 5100              mov A,[_N_LIGHT_BINS]
+ 084E 1301              sub A,[X+1]
+ 0850 62D000            mov REG[0xd0],>__r0
+ 0853 5300              mov [__r0],A
+ 0855 62D000            mov REG[0xd0],>_i
+ 0858 5100              mov A,[_i]
+ 085A 62D000            mov REG[0xd0],>__r0
+ 085D 3A00              cmp A,[__r0]
+ 085F CFD9              jc L50
+ 0861           X22:
+ 0861                   .dbline 216
+ 0861           ;               
+ 0861           ;               
+ 0861           ;               
+ 0861           ;               /*if ( counter == LEN_L ){
+ 0861           ;                       LCD_PrCString(" Bye Bye");
+ 0861           ;                       break;
+ 0861           ;               }*/
+ 0861           ;               
+ 0861           ;               
+ 0861           ;               //counter+=1;
+ 0861           ;               //WaitMs(2000);
+ 0861           ;               
+ 0861           ;       }
+ 0861           L39:
+ 0861                   .dbline 165
+ 0861 8D6F              xjmp L42
+ 0863           X16:
+ 0863                   .dbline -2
+ 0863           L37:
+ 0863 38ED              add SP,-19
+ 0865 20                pop X
+ 0866                   .dbline 0 ; func end
+ 0866 8FFF              jmp .
+ 0868                   .dbsym l counter 18 c
+ 0868                   .dbsym l my_word_map 2 A[16:16]c
+ 0868                   .dbsym l light_bin 1 c
+ 0868                   .dbsym l word 0 c
+ 0868                   .dbend
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _i::
+ 0000 00                .byte 0
+ 0001                   .dbsym e i _i c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _my_vocab::
+ 0000 00000000000000000000      .word 0,0,0,0,0
+ 000A 00000000000000000000      .word 0,0,0,0,0
+ 0014 00000000000000000000      .word 0,0,0,0,0
+ 001E 00000000000000000000      .word 0,0,0,0,0
+ 0028 0000000000000000  .byte 0,0,0,0,0,0,0,0
+ 0030                   .dbsym e my_vocab _my_vocab A[48:16]S[Embedding]
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _buffer::
+ 0000 00000000000000000000      .word 0,0,0,0,0
+ 000A 00000000000000    .byte 0,0,0,0,0,0,0
+ 0011                   .dbsym e buffer _buffer A[17:17]c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _light_reading::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e light_reading _light_reading I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _iStatus::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e iStatus _iStatus I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _pResult::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e pResult _pResult pc
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _fScaleFactor::
+ 0000 00000000          .byte 0,0,0,0
+ 0004                   .dbsym e fScaleFactor _fScaleFactor D
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _fVolts::
+ 0000 00000000          .byte 0,0,0,0
+ 0004                   .dbsym e fVolts _fVolts D
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\CE5428~1.ARC\CE5428~2\CE54287\CE54287\main.c
+ 0000           _iData::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e iData _iData I
+                        .area lit(rom, con, rel, lit)
+ 0000           L44:
+ 0000 256400            .byte 37,'d,0

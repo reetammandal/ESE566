@@ -1,0 +1,460 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000                   .dbfile C:\Users\student\DOCUME~1\PSOCDE~1.4PR\UART_T~2\UART_T~1\UART_T~1\main.c
+ 0000                   .dbfunc e wait _wait fV
+ 0000           ;              i -> X+2
+ 0000           ;              j -> X+0
+ 0000           ;             ms -> X-5
+ 0000           _wait::
+ 0000                   .dbline -1
+ 0000 10                push X
+ 0001 4F                mov X,SP
+ 0002 3804              add SP,4
+ 0004                   .dbline 143
+ 0004           ; 
+ 0004           ; 
+ 0004           ; //  DESCRIPTION: Main file of the Example_UART Project.
+ 0004           ; //
+ 0004           ; //-----------------------------------------------------------------------------
+ 0004           ; //  Copyright (c) Cypress MicroSystems 2000-2003. All Rights Reserved.
+ 0004           ; //*****************************************************************************
+ 0004           ; //*****************************************************************************
+ 0004           ; ////***************************************************************************************
+ 0004           ; // 
+ 0004           ; //    The project can be tested using Windows HyperTerminal application.
+ 0004           ; // 
+ 0004           ; //    CY3210-PSoCEVAL1 Board Project
+ 0004           ; //
+ 0004           ; //Project Objective
+ 0004           ; //    To demonstrate the operation of the 8-Bit UART user module of PSoC device.  
+ 0004           ; //
+ 0004           ; //Overview
+ 0004           ; //    A command and some parameters (separated by spaces) are transmitted by a Personal 
+ 0004           ; //    Computer using Windows Hyper Terminal, through a Serial Port.  The data is received 
+ 0004           ; //    and decoded by PSoC and the command and parameters are echoed back to the PC (line by line).
+ 0004           ; //
+ 0004           ; //
+ 0004           ; //    The following changes were made to the default settings in the Device Editor:
+ 0004           ; // 
+ 0004           ; //    Select User Modules
+ 0004           ; //        o Select an UART_1 from the Digital Comm category.
+ 0004           ; //        o In this example, these UM is renamed as UART 
+ 0004           ; //    Place User Modules
+ 0004           ; //        1. Place the on blocks DCB02 and DCB03.
+ 0004           ; //
+ 0004           ; //    Set the global resources and UM parameters in the Device Editor as shown under 
+ 0004           ; //    "Project Settings" ahead.
+ 0004           ; //
+ 0004           ; //    Upon program execution all hardware settings from the device configuration are loaded 
+ 0004           ; //    into the device and main.c is executed.
+ 0004           ; //
+ 0004           ; //    The 24 MHz system clock is divided by 156 (VC3) to produce a 153.8 KHz clock, which 
+ 0004           ; //    is provided to UART user module.  The transfer rate would be 1/8 times the clock, 
+ 0004           ; //    ie., 19200 bps.  Parity is set to none in the initial configuration for the block 
+ 0004           ; //    and may also be set using the UART APIs.  
+ 0004           ; //
+ 0004           ; //    After setting up the HyperTerminal as explained below in section "Setting up 
+ 0004           ; //    HyperTerminal in Windows" , click on the 'Call' icon in the HyperTerminal and reset 
+ 0004           ; //    the PSoC.
+ 0004           ; //
+ 0004           ; //    In the HyperTerminal window, the following message will be displayed.
+ 0004           ; //
+ 0004           ; //    --------------------------------------------------------------------------------
+ 0004           ; //        Welcome to PSoC UART test program. V1.0
+ 0004           ; //        Enter a command and some parameters (delimited by space) and press <ENTER>
+ 0004           ; //           Eg:    foobar aa bbb cc      (MAX : 32 chars
+ 0004           ; //
+ 0004           ; //    --------------------------------------------------------------------------------
+ 0004           ; //
+ 0004           ; //    Based on the commands typed on the HyperTerminal, PSoC will decode the  command 
+ 0004           ; //    and parameters accordingly, ie., if command is typed as follows 
+ 0004           ; //    
+ 0004           ; //            Testing 1 22 333 4444 55555
+ 0004           ; //
+ 0004           ; //    The PSoC will respond with 
+ 0004           ; //    --------------------------------------------------------------------------------
+ 0004           ; //        Found valid command
+ 0004           ; //        Command =>Testing<
+ 0004           ; //        Paramaters:
+ 0004           ; //         <1>
+ 0004           ; //         <22>
+ 0004           ; //         <333>
+ 0004           ; //         <4444>
+ 0004           ; //         <55555>
+ 0004           ; //    --------------------------------------------------------------------------------
+ 0004           ; //
+ 0004           ; //    Further information on user modules is supplied in the specific user module data sheet 
+ 0004           ; //    included with PSoC Designer.
+ 0004           ; //
+ 0004           ; //Clock Routing
+ 0004           ; //    None
+ 0004           ; //    
+ 0004           ; //
+ 0004           ; //Project Settings
+ 0004           ; //
+ 0004           ; //    Global Resources 
+ 0004           ; //        CPU_Clock      = SysClk/2          CPU clock set to 12 MHz
+ 0004           ; //        VC3 Source      = SysClk/1          Set System Clock as the source for VC3
+ 0004           ; //        VC3 Divider = 156               Divide 24 Mhz system clock by 156, so that 
+ 0004           ; //                                             effective baud rate would be 19.2 kbps.
+ 0004           ; //
+ 0004           ; //User Module Parameters
+ 0004           ; //    UART            
+ 0004           ; //        Clock                = VC3               Input is 153.8 KHz clock.(ie., 8 times 
+ 0004           ; //                                             baud rate-19200).
+ 0004           ; //        RX Input         = Row_0_Input_1     Routed from pin P2[5] through GlobalInEven_5.
+ 0004           ; //        TX Output        = Row_0_Output_3    Routed to pin P2[7] through GlobalOutEven_7.
+ 0004           ; //        TX InterruptMode= TXRegEmpty             Not used.
+ 0004           ; //              Clock Sync             = Sync to SysClock      Clock is synchronized with the source clock(System Clock).
+ 0004           ; //        RxCmdBuffer  = Enable                Enable the Command buffer, so that the command 
+ 0004           ; //                                              received is stored in a ram buffer.
+ 0004           ; //        RxBufferSize         = 32                Bytes      Length of buffer is 32 characters 
+ 0004           ; //                                              (including parameters).
+ 0004           ; //        CommandTerminator= 13                    Carriage return (13) is the command terminator.
+ 0004           ; //        Param_Delimiter = 32                     Space (32) is the parameter delimiter.
+ 0004           ; //        IgnoreCharsBelow= 32                     Ignore control characters which has 
+ 0004           ; //                                             ascii value below 32.
+ 0004           ; //              Enable_Backspace= Disable                      Not used.
+ 0004           ; //        Rx Output       = None                               Not used.
+ 0004           ; //             Rx Clock Out     = None               Not used.
+ 0004           ; //             Tx Clock Out     = None               Not used.
+ 0004           ; //        InvertRX Input  = Normal             Do not invert Rx Input.
+ 0004           ; //
+ 0004           ; //
+ 0004           ; //    Note : For further information on the above parameters of UART,  
+ 0004           ; //            see "High Level API section" of UART module datasheet.
+ 0004           ; //
+ 0004           ; //Hardware Connections
+ 0004           ; //
+ 0004           ; //This example project runs on the CY3210-PSoCEVAL1 board or compatible hardware. The 
+ 0004           ; //serial data is transmitted through pin P2[7] and received through the pin P2[5].  
+ 0004           ; //Input
+ 0004           ; //    Pin         Select                  Drive
+ 0004           ; //    -----------------------------------------
+ 0004           ; //    P2[5]   GlobalInEven_5      High Z
+ 0004           ; //                    
+ 0004           ; //Output
+ 0004           ; //
+ 0004           ; //    Pin         Select                  Drive
+ 0004           ; //    -----------------------------------------
+ 0004           ; //    P2[7]   GlobalOutEven_7     Strong
+ 0004           ; //
+ 0004           ; //How to use the Prototype Board
+ 0004           ; //    
+ 0004           ; //    CY3210-PSoCEVAL1
+ 0004           ; //        � Connect a jumper wire between P2[5] and Rx of J13.
+ 0004           ; //        � Connect a jumper wire between P2[7] and Tx of J13.
+ 0004           ; //
+ 0004           ; 
+ 0004           ; #include <m8c.h>        // part specific constants and macros
+ 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ;       //Declaration of the function that prints Welcome String on Hyperterminal
+ 0004           ; 
+ 0004           ; #define x 2000
+ 0004           ; 
+ 0004           ; void wait(int);
+ 0004           ; void wait(int ms) {
+ 0004                   .dbline 146
+ 0004           ; //    ms delay at 3MHz clock
+ 0004           ;       int i, j;
+ 0004           ;       for(i = 0; i < ms; i++)
+ 0004 560300            mov [X+3],0
+ 0007 560200            mov [X+2],0
+ 000A 801D              xjmp L5
+ 000C           L2:
+ 000C                   .dbline 147
+ 000C           ;               for(j = 0; j < 120; j++);
+ 000C 560100            mov [X+1],0
+ 000F 560000            mov [X+0],0
+ 0012           L6:
+ 0012                   .dbline 147
+ 0012           L7:
+ 0012                   .dbline 147
+ 0012 7701              inc [X+1]
+ 0014 0F0000            adc [X+0],0
+ 0017                   .dbline 147
+ 0017 5201              mov A,[X+1]
+ 0019 1178              sub A,120
+ 001B 5200              mov A,[X+0]
+ 001D 3180              xor A,-128
+ 001F 1980              sbb A,(0 ^ 0x80)
+ 0021 CFF0              jc L6
+ 0023           X0:
+ 0023           L3:
+ 0023                   .dbline 146
+ 0023 7703              inc [X+3]
+ 0025 0F0200            adc [X+2],0
+ 0028           L5:
+ 0028                   .dbline 146
+ 0028 5203              mov A,[X+3]
+ 002A 13FC              sub A,[X-4]
+ 002C 52FB              mov A,[X-5]
+ 002E 3180              xor A,-128
+ 0030 62D000            mov REG[0xd0],>__r0
+ 0033 5300              mov [__rX],A
+ 0035 5202              mov A,[X+2]
+ 0037 3180              xor A,-128
+ 0039 1A00              sbb A,[__rX]
+ 003B CFD0              jc L2
+ 003D           X1:
+ 003D                   .dbline -2
+ 003D           L1:
+ 003D 38FC              add SP,-4
+ 003F 20                pop X
+ 0040                   .dbline 0 ; func end
+ 0040 7F                ret
+ 0041                   .dbsym l i 2 I
+ 0041                   .dbsym l j 0 I
+ 0041                   .dbsym l ms -5 I
+ 0041                   .dbend
+ 0041                   .dbfunc e main _main fV
+ 0041           ;           flag -> X+4
+ 0041           ;        rTxdata -> X+3
+ 0041           ;        bTxdata -> X+2
+ 0041           ;      rx_status -> X+1
+ 0041           ;      tx_status -> X+0
+ 0041           _main::
+ 0041                   .dbline -1
+ 0041 10                push X
+ 0042 4F                mov X,SP
+ 0043 3805              add SP,5
+ 0045                   .dbline 151
+ 0045           ; }     
+ 0045           ; 
+ 0045           ; void main(void)
+ 0045           ; {
+ 0045                   .dbline 160
+ 0045           ;     // Parameter pointer
+ 0045           ;       //char clear_screen[] = "                ";
+ 0045           ;       //UART_CmdReset();
+ 0045           ;       BYTE flag;
+ 0045           ;       BYTE bTxdata;
+ 0045           ;       BYTE rTxdata;
+ 0045           ;       BYTE tx_status;
+ 0045           ;       BYTE rx_status;
+ 0045           ;       bTxdata = 0x17;
+ 0045 560217            mov [X+2],23
+ 0048                   .dbline 162
+ 0048           ;       //clear_screen = "";
+ 0048           ;       LCD_Start();
+ 0048 10                push X
+ 0049 7C0000            xcall _LCD_Start
+ 004C                   .dbline 165
+ 004C           ;       
+ 004C           ;       // Enable UART and no parity
+ 004C           ;     UART_Start(UART_PARITY_NONE);
+ 004C 5000              mov A,0
+ 004E 7C0000            xcall _UART_Start
+ 0051                   .dbline 168
+ 0051           ;       //Polling to check whether transmission over
+ 0051           ;       
+ 0051           ;       UART_CmdReset();
+ 0051 7C0000            xcall _UART_CmdReset
+ 0054 20                pop X
+ 0055 80C7              xjmp L12
+ 0057           L11:
+ 0057                   .dbline 169
+ 0057           ;       while (1){
+ 0057                   .dbline 170
+ 0057           ;               tx_status = UART_bReadTxStatus();
+ 0057 10                push X
+ 0058 7C0000            xcall _UART_bReadTxStatus
+ 005B 20                pop X
+ 005C 62D000            mov REG[0xd0],>__r0
+ 005F 5400              mov [X+0],A
+ 0061                   .dbline 171
+ 0061           ;               UART_SendData(bTxdata);
+ 0061 10                push X
+ 0062 5202              mov A,[X+2]
+ 0064 7C0000            xcall _UART_SendData
+ 0067 20                pop X
+ 0068           L14:
+ 0068                   .dbline 174
+ 0068           ;               //UART_PutSHexByte(bTxdata);
+ 0068           ;               
+ 0068           ;               do{
+ 0068                   .dbline 175
+ 0068           ;                       tx_status = UART_bReadTxStatus();
+ 0068 10                push X
+ 0069 7C0000            xcall _UART_bReadTxStatus
+ 006C 20                pop X
+ 006D 62D000            mov REG[0xd0],>__r0
+ 0070 5400              mov [X+0],A
+ 0072                   .dbline 176
+ 0072           ;                       LCD_Position(0,0);
+ 0072 10                push X
+ 0073 5000              mov A,0
+ 0075 5700              mov X,0
+ 0077 7C0000            xcall _LCD_Position
+ 007A                   .dbline 177
+ 007A           ;                       LCD_PrCString("Tx data");
+ 007A 500E              mov A,>L17
+ 007C 08                push A
+ 007D 500E              mov A,<L17
+ 007F 5C                mov X,A
+ 0080 18                pop A
+ 0081 7C0000            xcall _LCD_PrCString
+ 0084 20                pop X
+ 0085                   .dbline 178
+ 0085           ;               }while ( ~tx_status & UART_TX_COMPLETE );
+ 0085           L15:
+ 0085                   .dbline 178
+ 0085 62D000            mov REG[0xd0],>__r0
+ 0088 5200              mov A,[X+0]
+ 008A 73                cpl A
+ 008B 5300              mov [__r0],A
+ 008D 260020            and [__r0],32
+ 0090 BFD7              jnz L14
+ 0092                   .dbline 182
+ 0092           ;               
+ 0092           ;               /*LCD_Position(0,0);
+ 0092           ;               LCD_PrString(clear_screen);*/
+ 0092           ;               LCD_Position(0,0);
+ 0092 10                push X
+ 0093 5000              mov A,0
+ 0095 5700              mov X,0
+ 0097 7C0000            xcall _LCD_Position
+ 009A                   .dbline 183
+ 009A           ;               LCD_PrCString("Sent");
+ 009A 5009              mov A,>L18
+ 009C 08                push A
+ 009D 5009              mov A,<L18
+ 009F 5C                mov X,A
+ 00A0 18                pop A
+ 00A1 7C0000            xcall _LCD_PrCString
+ 00A4                   .dbline 185
+ 00A4           ;               
+ 00A4           ;               LCD_Position(0,9);
+ 00A4 5709              mov X,9
+ 00A6 5000              mov A,0
+ 00A8 7C0000            xcall _LCD_Position
+ 00AB 20                pop X
+ 00AC                   .dbline 186
+ 00AC           ;               LCD_PrHexByte(bTxdata);
+ 00AC 10                push X
+ 00AD 5202              mov A,[X+2]
+ 00AF 7C0000            xcall _LCD_PrHexByte
+ 00B2 20                pop X
+ 00B3                   .dbline 189
+ 00B3           ;               
+ 00B3           ;               // add x seconds delay
+ 00B3           ;               wait(x);
+ 00B3 5007              mov A,7
+ 00B5 08                push A
+ 00B6 50D0              mov A,-48
+ 00B8 08                push A
+ 00B9 9F45              xcall _wait
+ 00BB 38FE              add SP,-2
+ 00BD                   .dbline 190
+ 00BD           ;               bTxdata++;
+ 00BD 7702              inc [X+2]
+ 00BF                   .dbline 191
+ 00BF           ;               if (bTxdata == 0xFF) bTxdata = 0x10;
+ 00BF 3D02FF            cmp [X+2],-1
+ 00C2 B004              jnz L19
+ 00C4                   .dbline 191
+ 00C4 560210            mov [X+2],16
+ 00C7           L19:
+ 00C7                   .dbline 193
+ 00C7           ;               // receive a word now
+ 00C7           ;               UART_CmdReset();                          // Reset command buffer 
+ 00C7 10                push X
+ 00C8 7C0000            xcall _UART_CmdReset
+ 00CB 20                pop X
+ 00CC           L21:
+ 00CC                   .dbline 194
+ 00CC           ;               do {
+ 00CC                   .dbline 195
+ 00CC           ;                       LCD_Position(1,0);
+ 00CC 10                push X
+ 00CD 5700              mov X,0
+ 00CF 5001              mov A,1
+ 00D1 7C0000            xcall _LCD_Position
+ 00D4                   .dbline 197
+ 00D4           ;               //      LCD_PrCString("Rx: 24.4C, 2 V");
+ 00D4           ;                       LCD_PrCString("Rx data:");
+ 00D4 5000              mov A,>L24
+ 00D6 08                push A
+ 00D7 5000              mov A,<L24
+ 00D9 5C                mov X,A
+ 00DA 18                pop A
+ 00DB 7C0000            xcall _LCD_PrCString
+ 00DE                   .dbline 198
+ 00DE           ;                       rx_status = UART_bReadRxStatus();
+ 00DE 7C0000            xcall _UART_bReadRxStatus
+ 00E1 20                pop X
+ 00E2 62D000            mov REG[0xd0],>__r0
+ 00E5 5401              mov [X+1],A
+ 00E7                   .dbline 199
+ 00E7           ;               } while ( ~ rx_status & UART_RX_REG_FULL );
+ 00E7           L22:
+ 00E7                   .dbline 199
+ 00E7 62D000            mov REG[0xd0],>__r0
+ 00EA 5201              mov A,[X+1]
+ 00EC 73                cpl A
+ 00ED 5300              mov [__r0],A
+ 00EF 260008            and [__r0],8
+ 00F2 BFD9              jnz L21
+ 00F4                   .dbline 201
+ 00F4           ; 
+ 00F4           ;               rTxdata = UART_bReadRxData();
+ 00F4 10                push X
+ 00F5 7C0000            xcall _UART_bReadRxData
+ 00F8 20                pop X
+ 00F9 62D000            mov REG[0xd0],>__r0
+ 00FC 5403              mov [X+3],A
+ 00FE                   .dbline 203
+ 00FE           ; 
+ 00FE           ;               LCD_Position(1,9);
+ 00FE 10                push X
+ 00FF 5709              mov X,9
+ 0101 5001              mov A,1
+ 0103 7C0000            xcall _LCD_Position
+ 0106 20                pop X
+ 0107                   .dbline 204
+ 0107           ;               LCD_PrHexByte(rTxdata);
+ 0107 10                push X
+ 0108 5203              mov A,[X+3]
+ 010A 7C0000            xcall _LCD_PrHexByte
+ 010D 20                pop X
+ 010E                   .dbline 206
+ 010E           ;               // add x seconds delay
+ 010E           ;               wait(x); 
+ 010E 5007              mov A,7
+ 0110 08                push A
+ 0111 50D0              mov A,-48
+ 0113 08                push A
+ 0114 9EEA              xcall _wait
+ 0116 38FE              add SP,-2
+ 0118                   .dbline 207
+ 0118           ;               UART_CmdReset();
+ 0118 10                push X
+ 0119 7C0000            xcall _UART_CmdReset
+ 011C 20                pop X
+ 011D                   .dbline 208
+ 011D           ;       }
+ 011D           L12:
+ 011D                   .dbline 169
+ 011D 8F39              xjmp L11
+ 011F           X2:
+ 011F                   .dbline -2
+ 011F           L10:
+ 011F 38FB              add SP,-5
+ 0121 20                pop X
+ 0122                   .dbline 0 ; func end
+ 0122 8FFF              jmp .
+ 0124                   .dbsym l flag 4 c
+ 0124                   .dbsym l rTxdata 3 c
+ 0124                   .dbsym l bTxdata 2 c
+ 0124                   .dbsym l rx_status 1 c
+ 0124                   .dbsym l tx_status 0 c
+ 0124                   .dbend
+                        .area lit(rom, con, rel, lit)
+ 0000           L24:
+ 0000 527820646174613A00        .byte 'R,'x,32,'d,'a,'t,'a,58,0
+ 0009           L18:
+ 0009 53656E7400        .byte 'S,'e,'n,'t,0
+ 000E           L17:
+ 000E 5478206461746100  .byte 'T,'x,32,'d,'a,'t,'a,0

@@ -1,0 +1,75 @@
+Starting MAKE...
+creating project.mk 
+
+lib/adc.asm
+
+lib/adcint.asm
+
+lib/lcd.asm
+
+lib/pga.asm
+
+lib/psocconfig.asm
+
+lib/psocconfigtbl.asm
+
+lib/pwm8_speaker.asm
+
+lib/pwm8_speakerint.asm
+
+lib/timer32_1.asm
+
+lib/timer32_1int.asm
+
+./boot.asm
+
+Linking..
+
+LMM info: area 'InterruptRAM' uses 8 bytes in SRAM bank 0
+
+LMM info: area 'data' item of 48 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 25 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 17 bytes allocated in SRAM page 0
+
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
+
+LMM info: area 'data' item of 4 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 4 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+idata dump at output/CE54287.idata
+
+  ROM 26% full. 8473 out of 32768 bytes used (does not include absolute areas).
+
+  RAM 8% full. 141 bytes used (does not include stack usage).
+
+Built with ICCM8C STD V7.05.00
+
+ 
+CE54287 - 0 error(s) 0 warning(s) 20:13:28
+

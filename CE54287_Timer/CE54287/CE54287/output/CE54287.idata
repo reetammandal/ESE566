@@ -1,0 +1,12 @@
+flash 22B9 SRAM    8:
+ 00 90 bytes
+flash 22BD SRAM   71:
+ 00 14 bytes
+flash 22C1 SRAM   7F:
+ <size at next line>   3 20
+  [size:] 2 bytes
+flash 22C6 SRAM   81:
+ 00 9 bytes
+flash 22CA SRAM   8A:
+ <size at next line>  20  8  0
+  [size:] 3 bytes
